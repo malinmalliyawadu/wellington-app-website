@@ -1,19 +1,20 @@
-# Welly Website
+# 🌊 Welly Website
 
 Web companion for the [Welly](https://welly.nz) mobile app — a map-based social discovery platform for Wellington, New Zealand.
 
 The website serves as a landing page and shareable content hub. Users share posts, events, trails, and guides about Wellington spots, and the website makes these discoverable via web links with deep linking back to the mobile app.
 
-## Tech Stack
+## 🛠️ Tech Stack
 
 - **Framework**: Next.js 16 (App Router) with React 19
 - **Language**: TypeScript
 - **Styling**: Tailwind CSS 4
 - **Database**: Supabase (PostgreSQL + Auth + Storage)
 - **OG Images**: Vercel OG for dynamic social sharing images
+- **CI**: GitHub Actions (lint + build)
 - **Deployment**: Vercel
 
-## Getting Started
+## 🚀 Getting Started
 
 ```bash
 # Install dependencies
@@ -29,7 +30,7 @@ npm run dev
 
 Open [http://localhost:3000](http://localhost:3000) to view the site.
 
-## Environment Variables
+## 🔑 Environment Variables
 
 | Variable | Description |
 |----------|-------------|
@@ -37,7 +38,7 @@ Open [http://localhost:3000](http://localhost:3000) to view the site.
 | `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Supabase anonymous/public key |
 | `NEXT_PUBLIC_SITE_URL` | Site URL (e.g. `https://welly.nz`) |
 
-## Routes
+## 🗺️ Routes
 
 | Route | Description |
 |-------|-------------|
@@ -52,7 +53,7 @@ Open [http://localhost:3000](http://localhost:3000) to view the site.
 | `/support` | Support & FAQ |
 | `/api/og` | Dynamic OG image generation |
 
-## Project Structure
+## 📁 Project Structure
 
 ```
 src/
@@ -62,7 +63,7 @@ src/
 public/          # Static assets
 ```
 
-## Scripts
+## ⚡ Scripts
 
 ```bash
 npm run dev      # Start dev server
@@ -70,3 +71,14 @@ npm run build    # Production build
 npm run start    # Run production server
 npm run lint     # Run ESLint
 ```
+
+## 🔄 CI/CD
+
+GitHub Actions runs on every push to `main` and on pull requests:
+
+- **Lint** — runs ESLint to catch code quality issues
+- **Build** — runs `next build` to verify the production build (includes TypeScript type checking)
+
+Both jobs use the Node version pinned in `.nvmrc` and cache `node_modules` for faster runs.
+
+Vercel handles production deployments automatically on merge to `main`.

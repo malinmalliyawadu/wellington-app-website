@@ -58,6 +58,15 @@ src/
 - Brand color: #00A5E0
 - Font: Plus Jakarta Sans (weights 400-800)
 
+## CI/CD
+
+- GitHub Actions workflow: `.github/workflows/ci.yml`
+- Runs on push to `main` and on PRs to `main`
+- Two parallel jobs: **lint** (`npm run lint`) and **build** (`npm run build`)
+- Node version pinned in `.nvmrc` (22)
+- Build uses placeholder env vars (Supabase keys only need to exist at compile time)
+- Vercel handles production deployment on merge to `main`
+
 ## Conventions
 
 - Path alias: `@/*` maps to `src/*`
