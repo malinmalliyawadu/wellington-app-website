@@ -103,7 +103,15 @@ export default function HomePage() {
 
       {/* Footer */}
       <footer className="border-t border-gray-100 py-6 text-center text-sm text-gray-400">
-        Welly — Made in Wellington
+        <p>Welly — Made in Wellington</p>
+        <nav className="mt-2 flex justify-center gap-4">
+          <a href="/privacy" className="underline hover:text-gray-600">
+            Privacy
+          </a>
+          <a href="/support" className="underline hover:text-gray-600">
+            Contact
+          </a>
+        </nav>
       </footer>
     </div>
   );
