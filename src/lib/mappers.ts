@@ -1,4 +1,4 @@
-import type { Post, MediaItem, Event, Place, User } from "./types";
+import type { Post, MediaItem, Event, Place, User, Trail, Guide, GuidePlace } from "./types";
 
 export function mapMediaItem(row: {
   id: string;
@@ -106,6 +106,81 @@ export function mapPlace(row: {
     address: row.address,
     latitude: row.latitude,
     longitude: row.longitude,
+  };
+}
+
+export function mapTrail(row: {
+  id: string;
+  name: string;
+  description: string;
+  elevation: string;
+  distance: string;
+  duration: string;
+  difficulty: string;
+  highlights: string[] | unknown;
+  place_id: string;
+}): Trail {
+  return {
+    id: row.id,
+    name: row.name,
+    description: row.description,
+    elevation: row.elevation,
+    distance: row.distance,
+    duration: row.duration,
+    difficulty: row.difficulty as Trail["difficulty"],
+    highlights: Array.isArray(row.highlights) ? row.highlights : [],
+    placeId: row.place_id,
+  };
+}
+
+export function mapGuide(row: {
+  id: string;
+  user_id: string;
+  title: string;
+  description: string | null;
+  cover_image_url: string | null;
+  likes: number;
+  created_at: string;
+}): Guide {
+  return {
+    id: row.id,
+    userId: row.user_id,
+    title: row.title,
+    description: row.description ?? undefined,
+    coverImageUrl: row.cover_image_url ?? undefined,
+    likes: row.likes,
+    createdAt: row.created_at,
+  };
+}
+
+export function mapGuidePlace(row: {
+  place_id: string;
+  sort_order: number;
+  note: string | null;
+  places:
+    | {
+        id: string;
+        name: string;
+        category: string;
+        address: string;
+        latitude: number;
+        longitude: number;
+      }
+    | {
+        id: string;
+        name: string;
+        category: string;
+        address: string;
+        latitude: number;
+        longitude: number;
+      }[];
+}): GuidePlace {
+  const placeData = Array.isArray(row.places) ? row.places[0] : row.places;
+  return {
+    placeId: row.place_id,
+    sortOrder: row.sort_order,
+    note: row.note ?? undefined,
+    place: mapPlace(placeData),
   };
 }
 

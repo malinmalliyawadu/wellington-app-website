@@ -79,3 +79,34 @@ export interface User {
   avatarUrl: string;
   bio?: string;
 }
+
+export type TrailDifficulty = "easy" | "moderate" | "hard";
+
+export interface Trail {
+  id: string;
+  name: string;
+  description: string;
+  elevation: string;
+  distance: string;
+  duration: string;
+  difficulty: TrailDifficulty;
+  highlights: string[];
+  placeId: string;
+}
+
+export interface Guide {
+  id: string;
+  userId: string;
+  title: string;
+  description?: string;
+  coverImageUrl?: string;
+  likes: number;
+  createdAt: string;
+}
+
+export interface GuidePlace {
+  placeId: string;
+  sortOrder: number;
+  note?: string;
+  place: Place;
+}

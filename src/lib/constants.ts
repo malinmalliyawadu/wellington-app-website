@@ -40,3 +40,23 @@ export function getPlaceDeepLink(placeId: string): string {
 export function getUserDeepLink(userId: string): string {
   return getDeepLink(`feed/user/${userId}`);
 }
+
+export function getTrailDeepLink(trailId: string): string {
+  return getDeepLink(`map/trail/${trailId}`);
+}
+
+export function getGuideDeepLink(guideId: string): string {
+  return getDeepLink(`feed/guide/${guideId}`);
+}
+
+export const DIFFICULTY_LABELS: Record<string, string> = {
+  easy: "Easy",
+  moderate: "Moderate",
+  hard: "Hard",
+};
+
+export const DIFFICULTY_COLORS: Record<string, string> = {
+  easy: "#22C55E",
+  moderate: "#F59E0B",
+  hard: "#EF4444",
+};
