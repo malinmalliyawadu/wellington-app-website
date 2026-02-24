@@ -6,6 +6,7 @@ import { mapPost, mapPlace, mapProfile } from "@/lib/mappers";
 import { SITE_URL, getPostDeepLink } from "@/lib/constants";
 import { OpenInAppButton } from "@/components/OpenInAppButton";
 import { AppStoreBanner } from "@/components/AppStoreBanner";
+import { ThemeToggle } from "@/components/ThemeToggle";
 
 export const revalidate = 60;
 
@@ -108,9 +109,9 @@ export default async function PostPage({ params }: Props) {
     post.media?.[0]?.mediaUrl ?? post.mediaUrl;
 
   return (
-    <div className="mx-auto flex min-h-screen max-w-lg flex-col bg-white">
+    <div className="mx-auto flex min-h-screen max-w-lg flex-col bg-white dark:bg-gray-950">
       {/* Header */}
-      <header className="flex items-center gap-3 border-b border-gray-100 px-4 py-3">
+      <header className="flex items-center gap-3 border-b border-gray-100 px-4 py-3 dark:border-gray-800">
         {user?.avatarUrl && (
           <Image
             src={user.avatarUrl}
@@ -121,18 +122,18 @@ export default async function PostPage({ params }: Props) {
           />
         )}
         <div>
-          <p className="text-sm font-semibold text-gray-900">
+          <p className="text-sm font-semibold text-gray-900 dark:text-white">
             {user?.displayName}
           </p>
           {user?.username && (
-            <p className="text-xs text-gray-500">@{user.username}</p>
+            <p className="text-xs text-gray-500 dark:text-gray-400">@{user.username}</p>
           )}
         </div>
       </header>
 
       {/* Image */}
       {image && (
-        <div className="relative aspect-square w-full bg-gray-100">
+        <div className="relative aspect-square w-full bg-gray-100 dark:bg-gray-800">
           <Image
             src={image}
             alt={post.content}
@@ -146,12 +147,12 @@ export default async function PostPage({ params }: Props) {
 
       {/* Content */}
       <div className="flex flex-col gap-3 px-4 py-4">
-        <p className="text-sm leading-relaxed text-gray-900">{post.content}</p>
+        <p className="text-sm leading-relaxed text-gray-900 dark:text-white">{post.content}</p>
 
         {place && (
           <a
             href={`/place/${place.id}`}
-            className="flex items-center gap-2 rounded-lg bg-gray-50 px-3 py-2 text-sm text-gray-700 transition-colors hover:bg-gray-100"
+            className="flex items-center gap-2 rounded-lg bg-gray-50 px-3 py-2 text-sm text-gray-700 transition-colors hover:bg-gray-100 dark:bg-gray-900 dark:text-gray-200 dark:hover:bg-gray-800"
           >
             <svg
               width="16"
@@ -165,11 +166,11 @@ export default async function PostPage({ params }: Props) {
               <circle cx="12" cy="10" r="3" />
             </svg>
             <span className="font-medium">{place.name}</span>
-            <span className="text-gray-400">{place.address}</span>
+            <span className="text-gray-400 dark:text-gray-500">{place.address}</span>
           </a>
         )}
 
-        <div className="flex items-center gap-4 text-xs text-gray-400">
+        <div className="flex items-center gap-4 text-xs text-gray-400 dark:text-gray-500">
           <span>{post.likes} likes</span>
           <span>
             {new Date(post.createdAt).toLocaleDateString("en-NZ", {
@@ -182,11 +183,14 @@ export default async function PostPage({ params }: Props) {
       </div>
 
       {/* CTA */}
-      <div className="mt-auto flex flex-col gap-4 border-t border-gray-100 px-4 py-6">
+      <div className="mt-auto flex flex-col gap-4 border-t border-gray-100 px-4 py-6 dark:border-gray-800">
         <div className="text-center">
           <OpenInAppButton deepLink={getPostDeepLink(postId)} />
         </div>
         <AppStoreBanner />
+        <div className="flex justify-center">
+          <ThemeToggle />
+        </div>
       </div>
     </div>
   );

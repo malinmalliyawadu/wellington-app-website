@@ -10,6 +10,7 @@ import {
 } from "@/lib/constants";
 import { OpenInAppButton } from "@/components/OpenInAppButton";
 import { AppStoreBanner } from "@/components/AppStoreBanner";
+import { ThemeToggle } from "@/components/ThemeToggle";
 
 export const revalidate = 300;
 
@@ -72,7 +73,7 @@ export default async function TrailPage({ params }: Props) {
     DIFFICULTY_COLORS[trail.difficulty] ?? DIFFICULTY_COLORS.moderate;
 
   return (
-    <div className="mx-auto flex min-h-screen max-w-lg flex-col bg-white">
+    <div className="mx-auto flex min-h-screen max-w-lg flex-col bg-white dark:bg-gray-950">
       {/* Header */}
       <div className="flex flex-col gap-3 px-4 py-5">
         <span
@@ -81,11 +82,11 @@ export default async function TrailPage({ params }: Props) {
         >
           {DIFFICULTY_LABELS[trail.difficulty] ?? trail.difficulty}
         </span>
-        <h1 className="text-xl font-bold text-gray-900">{trail.name}</h1>
+        <h1 className="text-xl font-bold text-gray-900 dark:text-white">{trail.name}</h1>
       </div>
 
       {/* Stats */}
-      <div className="grid grid-cols-3 border-y border-gray-100">
+      <div className="grid grid-cols-3 border-y border-gray-100 dark:border-gray-800">
         <div className="flex flex-col items-center gap-1 py-4">
           <svg
             width="20"
@@ -94,16 +95,16 @@ export default async function TrailPage({ params }: Props) {
             fill="none"
             stroke="currentColor"
             strokeWidth="2"
-            className="text-gray-400"
+            className="text-gray-400 dark:text-gray-500"
           >
             <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />
           </svg>
-          <span className="text-sm font-semibold text-gray-900">
+          <span className="text-sm font-semibold text-gray-900 dark:text-white">
             {trail.distance}
           </span>
-          <span className="text-xs text-gray-400">Distance</span>
+          <span className="text-xs text-gray-400 dark:text-gray-500">Distance</span>
         </div>
-        <div className="flex flex-col items-center gap-1 border-x border-gray-100 py-4">
+        <div className="flex flex-col items-center gap-1 border-x border-gray-100 py-4 dark:border-gray-800">
           <svg
             width="20"
             height="20"
@@ -111,14 +112,14 @@ export default async function TrailPage({ params }: Props) {
             fill="none"
             stroke="currentColor"
             strokeWidth="2"
-            className="text-gray-400"
+            className="text-gray-400 dark:text-gray-500"
           >
             <path d="M12 19V5M5 12l7-7 7 7" />
           </svg>
-          <span className="text-sm font-semibold text-gray-900">
+          <span className="text-sm font-semibold text-gray-900 dark:text-white">
             {trail.elevation}
           </span>
-          <span className="text-xs text-gray-400">Elevation</span>
+          <span className="text-xs text-gray-400 dark:text-gray-500">Elevation</span>
         </div>
         <div className="flex flex-col items-center gap-1 py-4">
           <svg
@@ -128,21 +129,21 @@ export default async function TrailPage({ params }: Props) {
             fill="none"
             stroke="currentColor"
             strokeWidth="2"
-            className="text-gray-400"
+            className="text-gray-400 dark:text-gray-500"
           >
             <circle cx="12" cy="12" r="10" />
             <polyline points="12 6 12 12 16 14" />
           </svg>
-          <span className="text-sm font-semibold text-gray-900">
+          <span className="text-sm font-semibold text-gray-900 dark:text-white">
             {trail.duration}
           </span>
-          <span className="text-xs text-gray-400">Duration</span>
+          <span className="text-xs text-gray-400 dark:text-gray-500">Duration</span>
         </div>
       </div>
 
       {/* Description */}
       <div className="flex flex-col gap-4 px-4 py-5">
-        <p className="text-sm leading-relaxed text-gray-600 whitespace-pre-line">
+        <p className="text-sm leading-relaxed text-gray-600 whitespace-pre-line dark:text-gray-300">
           {trail.description}
         </p>
 
@@ -150,7 +151,7 @@ export default async function TrailPage({ params }: Props) {
         {place && (
           <a
             href={`/place/${place.id}`}
-            className="flex items-center gap-2 rounded-lg bg-gray-50 px-3 py-2 text-sm text-gray-700 transition-colors hover:bg-gray-100"
+            className="flex items-center gap-2 rounded-lg bg-gray-50 px-3 py-2 text-sm text-gray-700 transition-colors hover:bg-gray-100 dark:bg-gray-900 dark:text-gray-200 dark:hover:bg-gray-800"
           >
             <svg
               width="16"
@@ -164,23 +165,23 @@ export default async function TrailPage({ params }: Props) {
               <circle cx="12" cy="10" r="3" />
             </svg>
             <span className="font-medium">{place.name}</span>
-            <span className="text-gray-400">{place.address}</span>
+            <span className="text-gray-400 dark:text-gray-500">{place.address}</span>
           </a>
         )}
 
         {/* Highlights */}
         {trail.highlights.length > 0 && (
           <div>
-            <h2 className="mb-2 text-sm font-semibold text-gray-900">
+            <h2 className="mb-2 text-sm font-semibold text-gray-900 dark:text-white">
               Highlights
             </h2>
             <ul className="space-y-1">
               {trail.highlights.map((h, i) => (
                 <li
                   key={i}
-                  className="flex items-start gap-2 text-sm text-gray-600"
+                  className="flex items-start gap-2 text-sm text-gray-600 dark:text-gray-300"
                 >
-                  <span className="mt-1 text-gray-300">-</span>
+                  <span className="mt-1 text-gray-300 dark:text-gray-600">-</span>
                   {h}
                 </li>
               ))}
@@ -190,11 +191,14 @@ export default async function TrailPage({ params }: Props) {
       </div>
 
       {/* CTA */}
-      <div className="mt-auto flex flex-col gap-4 border-t border-gray-100 px-4 py-6">
+      <div className="mt-auto flex flex-col gap-4 border-t border-gray-100 px-4 py-6 dark:border-gray-800">
         <div className="text-center">
           <OpenInAppButton deepLink={getTrailDeepLink(trailId)} />
         </div>
         <AppStoreBanner />
+        <div className="flex justify-center">
+          <ThemeToggle />
+        </div>
       </div>
     </div>
   );

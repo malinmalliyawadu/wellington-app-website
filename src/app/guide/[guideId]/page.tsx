@@ -10,6 +10,7 @@ import {
 } from "@/lib/constants";
 import { OpenInAppButton } from "@/components/OpenInAppButton";
 import { AppStoreBanner } from "@/components/AppStoreBanner";
+import { ThemeToggle } from "@/components/ThemeToggle";
 
 export const revalidate = 60;
 
@@ -90,10 +91,10 @@ export default async function GuidePage({ params }: Props) {
   ]);
 
   return (
-    <div className="mx-auto flex min-h-screen max-w-lg flex-col bg-white">
+    <div className="mx-auto flex min-h-screen max-w-lg flex-col bg-white dark:bg-gray-950">
       {/* Cover Image */}
       {guide.coverImageUrl && (
-        <div className="relative aspect-video w-full bg-gray-100">
+        <div className="relative aspect-video w-full bg-gray-100 dark:bg-gray-800">
           <Image
             src={guide.coverImageUrl}
             alt={guide.title}
@@ -107,7 +108,7 @@ export default async function GuidePage({ params }: Props) {
 
       {/* Header */}
       <div className="flex flex-col gap-3 px-4 py-5">
-        <h1 className="text-xl font-bold text-gray-900">{guide.title}</h1>
+        <h1 className="text-xl font-bold text-gray-900 dark:text-white">{guide.title}</h1>
 
         {/* Author */}
         {user && (
@@ -121,19 +122,19 @@ export default async function GuidePage({ params }: Props) {
                 className="rounded-full"
               />
             )}
-            <span className="text-sm text-gray-500">
-              by <span className="font-medium text-gray-700">{user.displayName}</span>
+            <span className="text-sm text-gray-500 dark:text-gray-400">
+              by <span className="font-medium text-gray-700 dark:text-gray-200">{user.displayName}</span>
             </span>
           </div>
         )}
 
         {guide.description && (
-          <p className="text-sm leading-relaxed text-gray-600">
+          <p className="text-sm leading-relaxed text-gray-600 dark:text-gray-300">
             {guide.description}
           </p>
         )}
 
-        <div className="flex items-center gap-4 text-xs text-gray-400">
+        <div className="flex items-center gap-4 text-xs text-gray-400 dark:text-gray-500">
           <span>{places.length} places</span>
           <span>{guide.likes} likes</span>
         </div>
@@ -141,32 +142,32 @@ export default async function GuidePage({ params }: Props) {
 
       {/* Places */}
       {places.length > 0 && (
-        <div className="border-t border-gray-100">
-          <h2 className="px-4 pt-4 pb-2 text-sm font-semibold text-gray-900">
+        <div className="border-t border-gray-100 dark:border-gray-800">
+          <h2 className="px-4 pt-4 pb-2 text-sm font-semibold text-gray-900 dark:text-white">
             Places in this guide
           </h2>
-          <ul className="divide-y divide-gray-50">
+          <ul className="divide-y divide-gray-50 dark:divide-gray-800">
             {places.map((gp, i) => (
               <li key={gp.placeId}>
                 <a
                   href={`/place/${gp.placeId}`}
-                  className="flex items-start gap-3 px-4 py-3 transition-colors hover:bg-gray-50"
+                  className="flex items-start gap-3 px-4 py-3 transition-colors hover:bg-gray-50 dark:hover:bg-gray-900"
                 >
-                  <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-gray-100 text-xs font-semibold text-gray-500">
+                  <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-gray-100 text-xs font-semibold text-gray-500 dark:bg-gray-800 dark:text-gray-400">
                     {i + 1}
                   </span>
                   <div className="min-w-0 flex-1">
-                    <p className="text-sm font-medium text-gray-900">
+                    <p className="text-sm font-medium text-gray-900 dark:text-white">
                       {gp.place.name}
                     </p>
-                    <div className="flex items-center gap-2 text-xs text-gray-400">
+                    <div className="flex items-center gap-2 text-xs text-gray-400 dark:text-gray-500">
                       <span className="capitalize">
                         {CATEGORY_LABELS[gp.place.category] ?? gp.place.category}
                       </span>
                       <span>{gp.place.address}</span>
                     </div>
                     {gp.note && (
-                      <p className="mt-1 text-xs text-gray-500 italic">
+                      <p className="mt-1 text-xs text-gray-500 italic dark:text-gray-400">
                         &ldquo;{gp.note}&rdquo;
                       </p>
                     )}
@@ -179,11 +180,14 @@ export default async function GuidePage({ params }: Props) {
       )}
 
       {/* CTA */}
-      <div className="mt-auto flex flex-col gap-4 border-t border-gray-100 px-4 py-6">
+      <div className="mt-auto flex flex-col gap-4 border-t border-gray-100 px-4 py-6 dark:border-gray-800">
         <div className="text-center">
           <OpenInAppButton deepLink={getGuideDeepLink(guideId)} />
         </div>
         <AppStoreBanner />
+        <div className="flex justify-center">
+          <ThemeToggle />
+        </div>
       </div>
     </div>
   );

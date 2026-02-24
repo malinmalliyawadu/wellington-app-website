@@ -9,7 +9,7 @@ export default function Error({
   reset: () => void;
 }) {
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center bg-white px-6 text-center">
+    <div className="flex min-h-screen flex-col items-center justify-center bg-white px-6 text-center dark:bg-gray-950">
       <img
         src="/icon.png"
         alt="Welly"
@@ -17,8 +17,8 @@ export default function Error({
         height={64}
         className="mb-6 rounded-2xl shadow-lg shadow-[#00A5E0]/20"
       />
-      <h1 className="text-2xl font-bold text-gray-900">Something went wrong</h1>
-      <p className="mt-2 text-gray-500">
+      <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Something went wrong</h1>
+      <p className="mt-2 text-gray-500 dark:text-gray-400">
         We hit an unexpected error. Please try again.
       </p>
       <button

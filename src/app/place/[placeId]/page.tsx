@@ -10,6 +10,7 @@ import {
 } from "@/lib/constants";
 import { OpenInAppButton } from "@/components/OpenInAppButton";
 import { AppStoreBanner } from "@/components/AppStoreBanner";
+import { ThemeToggle } from "@/components/ThemeToggle";
 
 export const revalidate = 3600;
 
@@ -89,15 +90,15 @@ export default async function PlacePage({ params }: Props) {
   const userMap = Object.fromEntries(users.map((u) => [u.id, u]));
 
   return (
-    <div className="mx-auto flex min-h-screen max-w-lg flex-col bg-white">
+    <div className="mx-auto flex min-h-screen max-w-lg flex-col bg-white dark:bg-gray-950">
       {/* Header */}
-      <div className="border-b border-gray-100 px-4 py-5">
-        <span className="mb-2 inline-block rounded-full bg-[#00A5E0]/10 px-3 py-1 text-xs font-semibold text-[#00A5E0] capitalize">
+      <div className="border-b border-gray-100 px-4 py-5 dark:border-gray-800">
+        <span className="mb-2 inline-block rounded-full bg-[#00A5E0]/10 px-3 py-1 text-xs font-semibold text-[#00A5E0] capitalize dark:bg-[#00A5E0]/20">
           {CATEGORY_LABELS[place.category] ?? place.category}
         </span>
-        <h1 className="text-xl font-bold text-gray-900">{place.name}</h1>
-        <p className="mt-1 text-sm text-gray-500">{place.address}</p>
-        <p className="mt-2 text-sm text-gray-400">
+        <h1 className="text-xl font-bold text-gray-900 dark:text-white">{place.name}</h1>
+        <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">{place.address}</p>
+        <p className="mt-2 text-sm text-gray-400 dark:text-gray-500">
           {posts.length} recommendation{posts.length !== 1 ? "s" : ""}
         </p>
       </div>
@@ -115,7 +116,7 @@ export default async function PlacePage({ params }: Props) {
               <a
                 key={post.id}
                 href={`/post/${post.id}`}
-                className="relative aspect-square bg-gray-100"
+                className="relative aspect-square bg-gray-100 dark:bg-gray-800"
               >
                 {image ? (
                   <Image
@@ -127,7 +128,7 @@ export default async function PlacePage({ params }: Props) {
                   />
                 ) : (
                   <div className="flex h-full items-center justify-center p-2">
-                    <p className="line-clamp-3 text-xs text-gray-500">
+                    <p className="line-clamp-3 text-xs text-gray-500 dark:text-gray-400">
                       {post.content}
                     </p>
                   </div>
@@ -145,7 +146,7 @@ export default async function PlacePage({ params }: Props) {
           <a
             key={post.id}
             href={`/post/${post.id}`}
-            className="flex gap-3 border-b border-gray-50 px-4 py-3 transition-colors hover:bg-gray-50"
+            className="flex gap-3 border-b border-gray-50 px-4 py-3 transition-colors hover:bg-gray-50 dark:border-gray-800 dark:hover:bg-gray-900"
           >
             {user?.avatarUrl && (
               <Image
@@ -157,10 +158,10 @@ export default async function PlacePage({ params }: Props) {
               />
             )}
             <div className="min-w-0 flex-1">
-              <p className="text-xs font-semibold text-gray-900">
+              <p className="text-xs font-semibold text-gray-900 dark:text-white">
                 {user?.displayName}
               </p>
-              <p className="mt-0.5 line-clamp-2 text-xs text-gray-600">
+              <p className="mt-0.5 line-clamp-2 text-xs text-gray-600 dark:text-gray-300">
                 {post.content}
               </p>
             </div>
@@ -169,11 +170,14 @@ export default async function PlacePage({ params }: Props) {
       })}
 
       {/* CTA */}
-      <div className="mt-auto flex flex-col gap-4 border-t border-gray-100 px-4 py-6">
+      <div className="mt-auto flex flex-col gap-4 border-t border-gray-100 px-4 py-6 dark:border-gray-800">
         <div className="text-center">
           <OpenInAppButton deepLink={getPlaceDeepLink(placeId)} />
         </div>
         <AppStoreBanner />
+        <div className="flex justify-center">
+          <ThemeToggle />
+        </div>
       </div>
     </div>
   );

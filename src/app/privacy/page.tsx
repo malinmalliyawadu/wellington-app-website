@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { ThemeToggle } from "@/components/ThemeToggle";
 
 export const metadata: Metadata = {
   title: "Privacy Policy",
@@ -158,6 +159,10 @@ export default function PrivacyPolicyPage() {
             .
           </p>
         </section>
+      </div>
+
+      <div className="mt-12 flex justify-center">
+        <ThemeToggle />
       </div>
     </main>
   );

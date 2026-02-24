@@ -6,6 +6,7 @@ import { mapEvent, mapPlace } from "@/lib/mappers";
 import { SITE_URL, getEventDeepLink, CATEGORY_LABELS } from "@/lib/constants";
 import { OpenInAppButton } from "@/components/OpenInAppButton";
 import { AppStoreBanner } from "@/components/AppStoreBanner";
+import { ThemeToggle } from "@/components/ThemeToggle";
 
 export const revalidate = 300;
 
@@ -83,10 +84,10 @@ export default async function EventPage({ params }: Props) {
   });
 
   return (
-    <div className="mx-auto flex min-h-screen max-w-lg flex-col bg-white">
+    <div className="mx-auto flex min-h-screen max-w-lg flex-col bg-white dark:bg-gray-950">
       {/* Event Image */}
       {event.imageUrl && (
-        <div className="relative aspect-video w-full bg-gray-100">
+        <div className="relative aspect-video w-full bg-gray-100 dark:bg-gray-800">
           <Image
             src={event.imageUrl}
             alt={event.title}
@@ -101,14 +102,14 @@ export default async function EventPage({ params }: Props) {
       {/* Content */}
       <div className="flex flex-col gap-4 px-4 py-5">
         <div>
-          <span className="mb-2 inline-block rounded-full bg-[#00A5E0]/10 px-3 py-1 text-xs font-semibold text-[#00A5E0] capitalize">
+          <span className="mb-2 inline-block rounded-full bg-[#00A5E0]/10 px-3 py-1 text-xs font-semibold text-[#00A5E0] capitalize dark:bg-[#00A5E0]/20">
             {CATEGORY_LABELS[event.category] ?? event.category}
           </span>
-          <h1 className="text-xl font-bold text-gray-900">{event.title}</h1>
+          <h1 className="text-xl font-bold text-gray-900 dark:text-white">{event.title}</h1>
         </div>
 
         {/* Date & Time */}
-        <div className="flex items-center gap-2 text-sm text-gray-700">
+        <div className="flex items-center gap-2 text-sm text-gray-700 dark:text-gray-200">
           <svg
             width="16"
             height="16"
@@ -123,7 +124,7 @@ export default async function EventPage({ params }: Props) {
             <line x1="3" y1="10" x2="21" y2="10" />
           </svg>
           <span className="font-medium">{formattedDate}</span>
-          <span className="text-gray-400">
+          <span className="text-gray-400 dark:text-gray-500">
             {event.startTime}
             {event.endTime ? ` - ${event.endTime}` : ""}
           </span>
@@ -133,7 +134,7 @@ export default async function EventPage({ params }: Props) {
         {place && (
           <a
             href={`/place/${place.id}`}
-            className="flex items-center gap-2 rounded-lg bg-gray-50 px-3 py-2 text-sm text-gray-700 transition-colors hover:bg-gray-100"
+            className="flex items-center gap-2 rounded-lg bg-gray-50 px-3 py-2 text-sm text-gray-700 transition-colors hover:bg-gray-100 dark:bg-gray-900 dark:text-gray-200 dark:hover:bg-gray-800"
           >
             <svg
               width="16"
@@ -147,19 +148,19 @@ export default async function EventPage({ params }: Props) {
               <circle cx="12" cy="10" r="3" />
             </svg>
             <span className="font-medium">{place.name}</span>
-            <span className="text-gray-400">{place.address}</span>
+            <span className="text-gray-400 dark:text-gray-500">{place.address}</span>
           </a>
         )}
 
         {/* Price */}
         {event.price !== undefined && event.price !== null && (
-          <p className="text-sm font-medium text-gray-700">
+          <p className="text-sm font-medium text-gray-700 dark:text-gray-200">
             {event.price === 0 ? "Free" : `$${event.price}`}
           </p>
         )}
 
         {/* Description */}
-        <p className="text-sm leading-relaxed text-gray-600 whitespace-pre-line">
+        <p className="text-sm leading-relaxed text-gray-600 whitespace-pre-line dark:text-gray-300">
           {event.description}
         </p>
 
@@ -177,11 +178,14 @@ export default async function EventPage({ params }: Props) {
       </div>
 
       {/* CTA */}
-      <div className="mt-auto flex flex-col gap-4 border-t border-gray-100 px-4 py-6">
+      <div className="mt-auto flex flex-col gap-4 border-t border-gray-100 px-4 py-6 dark:border-gray-800">
         <div className="text-center">
           <OpenInAppButton deepLink={getEventDeepLink(eventId)} />
         </div>
         <AppStoreBanner />
+        <div className="flex justify-center">
+          <ThemeToggle />
+        </div>
       </div>
     </div>
   );

@@ -1,9 +1,10 @@
 import Image from "next/image";
 import { APP_STORE_URL } from "@/lib/constants";
+import { ThemeToggle } from "@/components/ThemeToggle";
 
 export default function HomePage() {
   return (
-    <div className="flex min-h-screen flex-col bg-white">
+    <div className="flex min-h-screen flex-col bg-white dark:bg-gray-950">
       {/* Hero */}
       <main className="mx-auto flex w-full max-w-3xl flex-1 flex-col items-center justify-center px-6 py-20 text-center">
         {/* Logo */}
@@ -15,10 +16,10 @@ export default function HomePage() {
           className="mb-8 rounded-2xl shadow-lg shadow-[#00A5E0]/20"
         />
 
-        <h1 className="text-4xl font-extrabold tracking-tight text-gray-900 sm:text-5xl">
+        <h1 className="text-4xl font-extrabold tracking-tight text-gray-900 dark:text-white sm:text-5xl">
           Discover Wellington
         </h1>
-        <p className="mx-auto mt-4 max-w-md text-lg text-gray-500">
+        <p className="mx-auto mt-4 max-w-md text-lg text-gray-500 dark:text-gray-400">
           Follow locals you trust. See their favourite spots on a map. Find
           what&apos;s happening around town.
         </p>
@@ -26,7 +27,7 @@ export default function HomePage() {
         <div className="mt-8 flex flex-col gap-3 sm:flex-row">
           <a
             href={APP_STORE_URL}
-            className="inline-flex items-center justify-center rounded-full bg-gray-900 px-6 py-3 text-base font-semibold text-white transition-colors hover:bg-gray-700"
+            className="inline-flex items-center justify-center rounded-full bg-gray-900 px-6 py-3 text-base font-semibold text-white transition-colors hover:bg-gray-700 dark:bg-white dark:text-gray-900 dark:hover:bg-gray-200"
           >
             Download for iOS
           </a>
@@ -35,7 +36,7 @@ export default function HomePage() {
         {/* Features */}
         <div className="mt-20 grid gap-8 sm:grid-cols-3">
           <div className="flex flex-col items-center gap-3">
-            <div className="flex h-12 w-12 items-center justify-center rounded-full bg-[#00A5E0]/10">
+            <div className="flex h-12 w-12 items-center justify-center rounded-full bg-[#00A5E0]/10 dark:bg-[#00A5E0]/20">
               <svg
                 width="24"
                 height="24"
@@ -50,14 +51,14 @@ export default function HomePage() {
                 <path d="M16 3.13a4 4 0 0 1 0 7.75" />
               </svg>
             </div>
-            <h3 className="font-semibold text-gray-900">Follow Locals</h3>
-            <p className="text-sm text-gray-500">
+            <h3 className="font-semibold text-gray-900 dark:text-white">Follow Locals</h3>
+            <p className="text-sm text-gray-500 dark:text-gray-400">
               Friends, food bloggers, event promoters — follow the people who
               know Wellington best.
             </p>
           </div>
           <div className="flex flex-col items-center gap-3">
-            <div className="flex h-12 w-12 items-center justify-center rounded-full bg-[#00A5E0]/10">
+            <div className="flex h-12 w-12 items-center justify-center rounded-full bg-[#00A5E0]/10 dark:bg-[#00A5E0]/20">
               <svg
                 width="24"
                 height="24"
@@ -70,14 +71,14 @@ export default function HomePage() {
                 <circle cx="12" cy="10" r="3" />
               </svg>
             </div>
-            <h3 className="font-semibold text-gray-900">Map-Based Discovery</h3>
-            <p className="text-sm text-gray-500">
+            <h3 className="font-semibold text-gray-900 dark:text-white">Map-Based Discovery</h3>
+            <p className="text-sm text-gray-500 dark:text-gray-400">
               See recommendations on a map. Browse what&apos;s nearby or explore
               different neighbourhoods.
             </p>
           </div>
           <div className="flex flex-col items-center gap-3">
-            <div className="flex h-12 w-12 items-center justify-center rounded-full bg-[#00A5E0]/10">
+            <div className="flex h-12 w-12 items-center justify-center rounded-full bg-[#00A5E0]/10 dark:bg-[#00A5E0]/20">
               <svg
                 width="24"
                 height="24"
@@ -92,8 +93,8 @@ export default function HomePage() {
                 <line x1="3" y1="10" x2="21" y2="10" />
               </svg>
             </div>
-            <h3 className="font-semibold text-gray-900">Events</h3>
-            <p className="text-sm text-gray-500">
+            <h3 className="font-semibold text-gray-900 dark:text-white">Events</h3>
+            <p className="text-sm text-gray-500 dark:text-gray-400">
               Gigs, markets, comedy nights — find what&apos;s on in Wellington
               this week.
             </p>
@@ -102,15 +103,16 @@ export default function HomePage() {
       </main>
 
       {/* Footer */}
-      <footer className="border-t border-gray-100 py-6 text-center text-sm text-gray-400">
+      <footer className="border-t border-gray-100 py-6 text-center text-sm text-gray-400 dark:border-gray-800 dark:text-gray-500">
         <p>Welly — Made in Wellington</p>
-        <nav className="mt-2 flex justify-center gap-4">
-          <a href="/privacy" className="underline hover:text-gray-600">
+        <nav className="mt-2 flex items-center justify-center gap-4">
+          <a href="/privacy" className="underline hover:text-gray-600 dark:hover:text-gray-300">
             Privacy
           </a>
-          <a href="/support" className="underline hover:text-gray-600">
+          <a href="/support" className="underline hover:text-gray-600 dark:hover:text-gray-300">
             Contact
           </a>
+          <ThemeToggle />
         </nav>
       </footer>
     </div>

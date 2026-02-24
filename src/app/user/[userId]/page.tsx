@@ -6,6 +6,7 @@ import { mapProfile, mapPost } from "@/lib/mappers";
 import { SITE_URL, getUserDeepLink } from "@/lib/constants";
 import { OpenInAppButton } from "@/components/OpenInAppButton";
 import { AppStoreBanner } from "@/components/AppStoreBanner";
+import { ThemeToggle } from "@/components/ThemeToggle";
 
 export const revalidate = 300;
 
@@ -87,9 +88,9 @@ export default async function UserPage({ params }: Props) {
   ]);
 
   return (
-    <div className="mx-auto flex min-h-screen max-w-lg flex-col bg-white">
+    <div className="mx-auto flex min-h-screen max-w-lg flex-col bg-white dark:bg-gray-950">
       {/* Profile Header */}
-      <div className="flex flex-col items-center border-b border-gray-100 px-4 py-6">
+      <div className="flex flex-col items-center border-b border-gray-100 px-4 py-6 dark:border-gray-800">
         {user.avatarUrl && (
           <Image
             src={user.avatarUrl}
@@ -100,21 +101,21 @@ export default async function UserPage({ params }: Props) {
             priority
           />
         )}
-        <h1 className="text-lg font-bold text-gray-900">
+        <h1 className="text-lg font-bold text-gray-900 dark:text-white">
           {user.displayName}
         </h1>
-        <p className="text-sm text-gray-500">@{user.username}</p>
+        <p className="text-sm text-gray-500 dark:text-gray-400">@{user.username}</p>
         {user.bio && (
-          <p className="mt-2 text-center text-sm text-gray-600">{user.bio}</p>
+          <p className="mt-2 text-center text-sm text-gray-600 dark:text-gray-300">{user.bio}</p>
         )}
         <div className="mt-3 flex gap-6 text-sm">
           <div className="text-center">
-            <span className="font-semibold text-gray-900">{posts.length}</span>
-            <span className="ml-1 text-gray-500">posts</span>
+            <span className="font-semibold text-gray-900 dark:text-white">{posts.length}</span>
+            <span className="ml-1 text-gray-500 dark:text-gray-400">posts</span>
           </div>
           <div className="text-center">
-            <span className="font-semibold text-gray-900">{followers}</span>
-            <span className="ml-1 text-gray-500">followers</span>
+            <span className="font-semibold text-gray-900 dark:text-white">{followers}</span>
+            <span className="ml-1 text-gray-500 dark:text-gray-400">followers</span>
           </div>
         </div>
       </div>
@@ -132,7 +133,7 @@ export default async function UserPage({ params }: Props) {
               <a
                 key={post.id}
                 href={`/post/${post.id}`}
-                className="relative aspect-square bg-gray-100"
+                className="relative aspect-square bg-gray-100 dark:bg-gray-800"
               >
                 {image ? (
                   <Image
@@ -144,7 +145,7 @@ export default async function UserPage({ params }: Props) {
                   />
                 ) : (
                   <div className="flex h-full items-center justify-center p-2">
-                    <p className="line-clamp-3 text-xs text-gray-500">
+                    <p className="line-clamp-3 text-xs text-gray-500 dark:text-gray-400">
                       {post.content}
                     </p>
                   </div>
@@ -156,11 +157,14 @@ export default async function UserPage({ params }: Props) {
       )}
 
       {/* CTA */}
-      <div className="mt-auto flex flex-col gap-4 border-t border-gray-100 px-4 py-6">
+      <div className="mt-auto flex flex-col gap-4 border-t border-gray-100 px-4 py-6 dark:border-gray-800">
         <div className="text-center">
           <OpenInAppButton deepLink={getUserDeepLink(userId)} />
         </div>
         <AppStoreBanner />
+        <div className="flex justify-center">
+          <ThemeToggle />
+        </div>
       </div>
     </div>
   );
