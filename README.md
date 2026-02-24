@@ -1,6 +1,6 @@
-![CI](https://github.com/anthropics/wellington-app-website/actions/workflows/ci.yml/badge.svg?branch=main)
-
 # 🌊 Welly Website
+
+[![CI](https://github.com/malinmalliyawadu/wellington-app-website/actions/workflows/ci.yml/badge.svg)](https://github.com/malinmalliyawadu/wellington-app-website/actions/workflows/ci.yml)
 
 Web companion for the [Welly](https://welly.nz) mobile app — a map-based social discovery platform for Wellington, New Zealand.
 
