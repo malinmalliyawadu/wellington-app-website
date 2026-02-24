@@ -15,9 +15,11 @@ Welly website — web companion for the Welly mobile app (Wellington, NZ social 
 ## Key Commands
 
 ```bash
-npm run dev      # Start dev server (localhost:3000)
-npm run build    # Production build
-npm run lint     # ESLint
+npm run dev        # Start dev server (localhost:3000)
+npm run build      # Production build
+npm run lint       # ESLint
+npm test           # Run tests (single run)
+npm run test:watch # Run tests (watch mode)
 ```
 
 ## Project Structure
@@ -66,6 +68,14 @@ src/
 - Node version pinned in `.nvmrc` (22)
 - Build uses placeholder env vars (Supabase keys only need to exist at compile time)
 - Vercel handles production deployment on merge to `main`
+
+## Testing
+
+- **Framework**: Vitest + React Testing Library
+- **Config**: `vitest.config.ts` (jsdom environment, `@/*` path alias)
+- **Test files**: `src/**/__tests__/*.test.{ts,tsx}`
+- **Lib tests**: `src/lib/__tests__/` — pure function tests for mappers and constants
+- **Component tests**: `src/components/__tests__/` — render tests with Testing Library
 
 ## Conventions
 

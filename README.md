@@ -1,3 +1,5 @@
+![CI](https://github.com/anthropics/wellington-app-website/actions/workflows/ci.yml/badge.svg?branch=main)
+
 # 🌊 Welly Website
 
 Web companion for the [Welly](https://welly.nz) mobile app — a map-based social discovery platform for Wellington, New Zealand.
@@ -66,10 +68,12 @@ public/          # Static assets
 ## ⚡ Scripts
 
 ```bash
-npm run dev      # Start dev server
-npm run build    # Production build
-npm run start    # Run production server
-npm run lint     # Run ESLint
+npm run dev        # Start dev server
+npm run build      # Production build
+npm run start      # Run production server
+npm run lint       # Run ESLint
+npm test           # Run tests (single run)
+npm run test:watch # Run tests (watch mode)
 ```
 
 ## 🔄 CI/CD
@@ -77,6 +81,7 @@ npm run lint     # Run ESLint
 GitHub Actions runs on every push to `main` and on pull requests:
 
 - **Lint** — runs ESLint to catch code quality issues
+- **Test** — runs Vitest unit and component tests
 - **Build** — runs `next build` to verify the production build (includes TypeScript type checking)
 
 Both jobs use the Node version pinned in `.nvmrc` and cache `node_modules` for faster runs.
