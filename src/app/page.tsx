@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { APP_STORE_URL } from "@/lib/constants";
 
 export default function HomePage() {
@@ -6,9 +7,13 @@ export default function HomePage() {
       {/* Hero */}
       <main className="mx-auto flex w-full max-w-3xl flex-1 flex-col items-center justify-center px-6 py-20 text-center">
         {/* Logo */}
-        <div className="mb-8 flex h-20 w-20 items-center justify-center rounded-2xl bg-[#00A5E0] shadow-lg shadow-[#00A5E0]/20">
-          <span className="text-3xl font-extrabold text-white">W</span>
-        </div>
+        <Image
+          src="/icon.png"
+          alt="Welly"
+          width={80}
+          height={80}
+          className="mb-8 rounded-2xl shadow-lg shadow-[#00A5E0]/20"
+        />
 
         <h1 className="text-4xl font-extrabold tracking-tight text-gray-900 sm:text-5xl">
           Discover Wellington

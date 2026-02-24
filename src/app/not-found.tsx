@@ -1,11 +1,16 @@
+import Image from "next/image";
 import Link from "next/link";
 
 export default function NotFound() {
   return (
     <div className="flex min-h-screen flex-col items-center justify-center bg-white px-6 text-center">
-      <div className="mb-6 flex h-16 w-16 items-center justify-center rounded-2xl bg-[#00A5E0] shadow-lg shadow-[#00A5E0]/20">
-        <span className="text-2xl font-extrabold text-white">W</span>
-      </div>
+      <Image
+        src="/icon.png"
+        alt="Welly"
+        width={64}
+        height={64}
+        className="mb-6 rounded-2xl shadow-lg shadow-[#00A5E0]/20"
+      />
       <h1 className="text-2xl font-bold text-gray-900">Page not found</h1>
       <p className="mt-2 text-gray-500">
         The page you&apos;re looking for doesn&apos;t exist or has been moved.
