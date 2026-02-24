@@ -33,7 +33,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en-NZ">
       <body className={`${plusJakarta.variable} font-sans antialiased`}>
         {children}
       </body>
