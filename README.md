@@ -1,36 +1,72 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Welly Website
+
+Web companion for the [Welly](https://welly.nz) mobile app — a map-based social discovery platform for Wellington, New Zealand.
+
+The website serves as a landing page and shareable content hub. Users share posts, events, trails, and guides about Wellington spots, and the website makes these discoverable via web links with deep linking back to the mobile app.
+
+## Tech Stack
+
+- **Framework**: Next.js 16 (App Router) with React 19
+- **Language**: TypeScript
+- **Styling**: Tailwind CSS 4
+- **Database**: Supabase (PostgreSQL + Auth + Storage)
+- **OG Images**: Vercel OG for dynamic social sharing images
+- **Deployment**: Vercel
 
 ## Getting Started
 
-First, run the development server:
-
 ```bash
+# Install dependencies
+npm install
+
+# Copy environment variables
+cp .env.example .env.local
+# Then fill in your Supabase credentials
+
+# Start development server
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) to view the site.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Environment Variables
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+| Variable | Description |
+|----------|-------------|
+| `NEXT_PUBLIC_SUPABASE_URL` | Supabase project URL |
+| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Supabase anonymous/public key |
+| `NEXT_PUBLIC_SITE_URL` | Site URL (e.g. `https://welly.nz`) |
 
-## Learn More
+## Routes
 
-To learn more about Next.js, take a look at the following resources:
+| Route | Description |
+|-------|-------------|
+| `/` | Landing page |
+| `/post/[postId]` | Individual post/recommendation |
+| `/place/[placeId]` | Place details with posts and reviews |
+| `/event/[eventId]` | Event details |
+| `/user/[userId]` | User profile |
+| `/trail/[trailId]` | Trail details (difficulty, distance, elevation) |
+| `/guide/[guideId]` | Curated place guide |
+| `/privacy` | Privacy policy |
+| `/support` | Support & FAQ |
+| `/api/og` | Dynamic OG image generation |
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Project Structure
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```
+src/
+  app/           # Pages and API routes (Next.js App Router)
+  components/    # Reusable React components
+  lib/           # Utilities, types, Supabase client, constants
+public/          # Static assets
+```
 
-## Deploy on Vercel
+## Scripts
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```bash
+npm run dev      # Start dev server
+npm run build    # Production build
+npm run start    # Run production server
+npm run lint     # Run ESLint
+```
