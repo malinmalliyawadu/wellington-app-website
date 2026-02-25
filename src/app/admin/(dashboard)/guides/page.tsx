@@ -2,6 +2,8 @@ import { supabaseAdmin } from "@/lib/supabase-admin";
 import { mapGuide } from "@/lib/mappers";
 import { GuidesTable } from "@/components/admin/guides/GuidesTable";
 
+export const dynamic = "force-dynamic";
+
 export default async function AdminGuidesPage() {
   const { data } = await supabaseAdmin
     .from("guides")

@@ -1,6 +1,8 @@
 import { supabaseAdmin } from "@/lib/supabase-admin";
 import { ReportsTable } from "@/components/admin/reports/ReportsTable";
 
+export const dynamic = "force-dynamic";
+
 export default async function AdminReportsPage() {
   const { data } = await supabaseAdmin
     .from("reports")

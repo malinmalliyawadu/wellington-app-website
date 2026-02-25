@@ -5,11 +5,17 @@ import { mapTrail } from "@/lib/mappers";
 import { Button } from "@/components/ui/button";
 import { TrailsTable } from "@/components/admin/trails/TrailsTable";
 
+export const dynamic = "force-dynamic";
+
 export default async function AdminTrailsPage() {
-  const { data } = await supabaseAdmin
+  const { data, error } = await supabaseAdmin
     .from("trails")
     .select("*")
     .order("name");
+
+  if (error) {
+    console.error("Failed to fetch trails:", error.message);
+  }
 
   const trails = (data ?? []).map(mapTrail);
 

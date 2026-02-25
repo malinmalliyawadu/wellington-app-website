@@ -5,6 +5,8 @@ import { mapPlace } from "@/lib/mappers";
 import { Button } from "@/components/ui/button";
 import { PlacesTable } from "@/components/admin/places/PlacesTable";
 
+export const dynamic = "force-dynamic";
+
 export default async function AdminPlacesPage() {
   const { data } = await supabaseAdmin
     .from("places")

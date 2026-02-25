@@ -10,6 +10,8 @@ import {
   Flag,
 } from "lucide-react";
 
+export const dynamic = "force-dynamic";
+
 async function getCount(table: string) {
   const { count } = await supabaseAdmin
     .from(table)

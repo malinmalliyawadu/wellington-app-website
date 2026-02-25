@@ -5,6 +5,8 @@ import { mapEvent } from "@/lib/mappers";
 import { Button } from "@/components/ui/button";
 import { EventsTable } from "@/components/admin/events/EventsTable";
 
+export const dynamic = "force-dynamic";
+
 export default async function AdminEventsPage() {
   const { data } = await supabaseAdmin
     .from("events")

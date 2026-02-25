@@ -2,6 +2,8 @@ import { supabaseAdmin } from "@/lib/supabase-admin";
 import { mapProfile } from "@/lib/mappers";
 import { UsersTable } from "@/components/admin/users/UsersTable";
 
+export const dynamic = "force-dynamic";
+
 export default async function AdminUsersPage() {
   const { data } = await supabaseAdmin
     .from("profiles")
