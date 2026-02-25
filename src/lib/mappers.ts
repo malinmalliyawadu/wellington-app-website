@@ -1,4 +1,4 @@
-import type { Post, MediaItem, Event, Place, User, Trail, Guide, GuidePlace } from "./types";
+import type { Post, MediaItem, Event, Place, User, Trail, Trailhead, TrailCoordinate, Guide, GuidePlace, Report } from "./types";
 
 export function mapMediaItem(row: {
   id: string;
@@ -109,6 +109,41 @@ export function mapPlace(row: {
   };
 }
 
+export function mapTrailhead(
+  raw: unknown
+): Trailhead | undefined {
+  if (
+    raw &&
+    typeof raw === "object" &&
+    "latitude" in raw &&
+    "longitude" in raw &&
+    "label" in raw
+  ) {
+    const obj = raw as Record<string, unknown>;
+    return {
+      latitude: Number(obj.latitude),
+      longitude: Number(obj.longitude),
+      label: String(obj.label),
+    };
+  }
+  return undefined;
+}
+
+export function mapTrailCoordinates(
+  raw: unknown
+): TrailCoordinate[] | undefined {
+  if (!Array.isArray(raw) || raw.length === 0) return undefined;
+  return raw
+    .filter(
+      (c) =>
+        c && typeof c === "object" && "latitude" in c && "longitude" in c
+    )
+    .map((c) => ({
+      latitude: Number(c.latitude),
+      longitude: Number(c.longitude),
+    }));
+}
+
 export function mapTrail(row: {
   id: string;
   name: string;
@@ -119,6 +154,8 @@ export function mapTrail(row: {
   difficulty: string;
   highlights: string[] | unknown;
   place_id: string;
+  trailhead?: unknown;
+  coordinates?: unknown;
 }): Trail {
   return {
     id: row.id,
@@ -130,6 +167,8 @@ export function mapTrail(row: {
     difficulty: row.difficulty as Trail["difficulty"],
     highlights: Array.isArray(row.highlights) ? row.highlights : [],
     placeId: row.place_id,
+    trailhead: mapTrailhead(row.trailhead),
+    coordinates: mapTrailCoordinates(row.coordinates),
   };
 }
 
@@ -197,5 +236,33 @@ export function mapProfile(row: {
     displayName: row.display_name,
     avatarUrl: row.avatar_url,
     bio: row.bio ?? undefined,
+  };
+}
+
+export function mapReport(row: {
+  id: string;
+  reporter_id: string;
+  reported_user_id: string;
+  content_type: string;
+  content_id: string | null;
+  reason: string;
+  details: string | null;
+  status: string;
+  admin_notes: string | null;
+  resolved_at: string | null;
+  created_at: string;
+}): Report {
+  return {
+    id: row.id,
+    reporterId: row.reporter_id,
+    reportedUserId: row.reported_user_id,
+    contentType: row.content_type as Report["contentType"],
+    contentId: row.content_id ?? undefined,
+    reason: row.reason as Report["reason"],
+    details: row.details ?? undefined,
+    status: row.status as Report["status"],
+    adminNotes: row.admin_notes ?? undefined,
+    resolvedAt: row.resolved_at ?? undefined,
+    createdAt: row.created_at,
   };
 }
