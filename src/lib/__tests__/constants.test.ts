@@ -14,7 +14,7 @@ import {
 
 describe("APP_STORE_ID", () => {
   it("equals the known App Store ID", () => {
-    expect(APP_STORE_ID).toBe("6744381547");
+    expect(APP_STORE_ID).toBe("6758979767");
   });
 
   it("is included in APP_STORE_URL", () => {
