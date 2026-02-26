@@ -3,7 +3,7 @@ import Image from "next/image";
 import { notFound } from "next/navigation";
 import { supabase } from "@/lib/supabase";
 import { mapPost, mapPlace, mapProfile } from "@/lib/mappers";
-import { SITE_URL, getPostDeepLink } from "@/lib/constants";
+import { SITE_URL, APP_STORE_ID, getPostDeepLink } from "@/lib/constants";
 import { OpenInAppButton } from "@/components/OpenInAppButton";
 import { AppStoreBanner } from "@/components/AppStoreBanner";
 import { ThemeToggle } from "@/components/ThemeToggle";
@@ -75,6 +75,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       title,
       description,
       images: [imageUrl],
+    },
+    other: {
+      "apple-itunes-app": `app-id=${APP_STORE_ID}, app-argument=${SITE_URL}/post/${postId}`,
     },
   };
 }

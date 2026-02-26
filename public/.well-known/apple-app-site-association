@@ -1,0 +1,23 @@
+{
+  "applinks": {
+    "details": [
+      {
+        "appIDs": ["WDB2HN7DW7.com.malinmw.wellingtonapp"],
+        "components": [
+          { "/": "/post/*", "comment": "Post pages" },
+          { "/": "/place/*", "comment": "Place pages" },
+          { "/": "/event/*", "comment": "Event pages" },
+          { "/": "/user/*", "comment": "User pages" },
+          { "/": "/trail/*", "comment": "Trail pages" },
+          { "/": "/guide/*", "comment": "Guide pages" },
+          { "/": "/privacy", "exclude": true },
+          { "/": "/support", "exclude": true },
+          { "/": "/admin/*", "exclude": true }
+        ]
+      }
+    ]
+  },
+  "webcredentials": {
+    "apps": ["WDB2HN7DW7.com.malinmw.wellingtonapp"]
+  }
+}

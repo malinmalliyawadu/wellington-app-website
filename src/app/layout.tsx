@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
-import { SITE_URL, APP_NAME } from "@/lib/constants";
+import { SITE_URL, APP_NAME, APP_STORE_ID } from "@/lib/constants";
 
 const plusJakarta = Plus_Jakarta_Sans({
   variable: "--font-plus-jakarta",
@@ -24,6 +24,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
+  },
+  other: {
+    "apple-itunes-app": `app-id=${APP_STORE_ID}`,
   },
 };
 
