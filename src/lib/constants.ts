@@ -5,7 +5,8 @@ export const DEEP_LINK_SCHEME = "wellington://";
 
 export const APP_NAME = "Welly";
 
-export const APP_STORE_URL = "https://apps.apple.com/app/welly/id0000000000"; // TODO: replace with real ID
+export const APP_STORE_ID = "6744381547";
+export const APP_STORE_URL = `https://apps.apple.com/app/welly/id${APP_STORE_ID}`;
 export const PLAY_STORE_URL =
   "https://play.google.com/store/apps/details?id=com.welly.app"; // TODO: replace with real ID
 

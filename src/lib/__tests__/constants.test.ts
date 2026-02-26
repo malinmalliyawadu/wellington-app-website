@@ -8,7 +8,19 @@ import {
   getTrailDeepLink,
   getGuideDeepLink,
   DEEP_LINK_SCHEME,
+  APP_STORE_ID,
+  APP_STORE_URL,
 } from "../constants";
+
+describe("APP_STORE_ID", () => {
+  it("equals the known App Store ID", () => {
+    expect(APP_STORE_ID).toBe("6744381547");
+  });
+
+  it("is included in APP_STORE_URL", () => {
+    expect(APP_STORE_URL).toContain(APP_STORE_ID);
+  });
+});
 
 describe("getDeepLink", () => {
   it("prefixes path with deep link scheme and slash", () => {

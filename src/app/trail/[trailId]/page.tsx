@@ -4,6 +4,7 @@ import { supabase } from "@/lib/supabase";
 import { mapTrail, mapPlace } from "@/lib/mappers";
 import {
   SITE_URL,
+  APP_STORE_ID,
   getTrailDeepLink,
   DIFFICULTY_LABELS,
   DIFFICULTY_COLORS,
@@ -59,6 +60,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       title,
       description,
       images: [ogUrl],
+    },
+    other: {
+      "apple-itunes-app": `app-id=${APP_STORE_ID}, app-argument=${SITE_URL}/trail/${trailId}`,
     },
   };
 }

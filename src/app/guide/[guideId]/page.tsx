@@ -5,6 +5,7 @@ import { supabase } from "@/lib/supabase";
 import { mapGuide, mapGuidePlace, mapProfile } from "@/lib/mappers";
 import {
   SITE_URL,
+  APP_STORE_ID,
   getGuideDeepLink,
   CATEGORY_LABELS,
 } from "@/lib/constants";
@@ -76,6 +77,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       title,
       description,
       images: [imageUrl],
+    },
+    other: {
+      "apple-itunes-app": `app-id=${APP_STORE_ID}, app-argument=${SITE_URL}/guide/${guideId}`,
     },
   };
 }
