@@ -53,6 +53,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   if (!guide) return { title: "Guide not found" };
 
   const user = await getUser(guide.userId);
+  if (user?.profileVisibility === "private")
+    return { title: "Guide not found" };
   const title = `${guide.title} - Welly`;
   const description = guide.description
     ? guide.description.slice(0, 150)
@@ -93,6 +95,7 @@ export default async function GuidePage({ params }: Props) {
     getUser(guide.userId),
     getGuidePlaces(guideId),
   ]);
+  if (user?.profileVisibility === "private") notFound();
 
   return (
     <div className="mx-auto flex min-h-screen max-w-lg flex-col bg-white dark:bg-gray-950">

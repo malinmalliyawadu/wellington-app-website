@@ -42,7 +42,8 @@ type Props = { params: Promise<{ userId: string }> };
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { userId } = await params;
   const user = await getUser(userId);
-  if (!user) return { title: "User not found" };
+  if (!user || user.profileVisibility === "private")
+    return { title: "User not found" };
 
   const [posts, followers] = await Promise.all([
     getUserPosts(userId),
@@ -83,7 +84,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export default async function UserPage({ params }: Props) {
   const { userId } = await params;
   const user = await getUser(userId);
-  if (!user) notFound();
+  if (!user || user.profileVisibility === "private") notFound();
 
   const [posts, followers] = await Promise.all([
     getUserPosts(userId),

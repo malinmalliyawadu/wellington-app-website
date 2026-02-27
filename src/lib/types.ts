@@ -78,6 +78,7 @@ export interface User {
   displayName: string;
   avatarUrl: string;
   bio?: string;
+  profileVisibility: string;
 }
 
 export type TrailDifficulty = "easy" | "moderate" | "hard";

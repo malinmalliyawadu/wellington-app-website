@@ -229,6 +229,7 @@ export function mapProfile(row: {
   display_name: string;
   avatar_url: string;
   bio: string | null;
+  profile_visibilty: string | null;
 }): User {
   return {
     id: row.id,
@@ -236,6 +237,7 @@ export function mapProfile(row: {
     displayName: row.display_name,
     avatarUrl: row.avatar_url,
     bio: row.bio ?? undefined,
+    profileVisibility: row.profile_visibilty ?? "public",
   };
 }
 

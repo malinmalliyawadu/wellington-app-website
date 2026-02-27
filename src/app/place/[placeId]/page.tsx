@@ -50,7 +50,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const place = await getPlace(placeId);
   if (!place) return { title: "Place not found" };
 
-  const posts = await getPostsForPlace(placeId);
+  const allPosts = await getPostsForPlace(placeId);
+  const postUserIds = [...new Set(allPosts.map((p) => p.userId))];
+  const postUsers = await getUsersByIds(postUserIds);
+  const publicUserIds = new Set(
+    postUsers.filter((u) => u.profileVisibility !== "private").map((u) => u.id)
+  );
+  const posts = allPosts.filter((p) => publicUserIds.has(p.userId));
   const title = `${place.name} - Welly`;
   const categoryLabel = CATEGORY_LABELS[place.category] ?? place.category;
   const description = `${categoryLabel} in Wellington - ${posts.length} recommendation${posts.length !== 1 ? "s" : ""}`;
@@ -88,10 +94,13 @@ export default async function PlacePage({ params }: Props) {
   const place = await getPlace(placeId);
   if (!place) notFound();
 
-  const posts = await getPostsForPlace(placeId);
-  const userIds = [...new Set(posts.map((p) => p.userId))];
+  const allPosts = await getPostsForPlace(placeId);
+  const userIds = [...new Set(allPosts.map((p) => p.userId))];
   const users = await getUsersByIds(userIds);
-  const userMap = Object.fromEntries(users.map((u) => [u.id, u]));
+  const publicUsers = users.filter((u) => u.profileVisibility !== "private");
+  const publicUserIds = new Set(publicUsers.map((u) => u.id));
+  const posts = allPosts.filter((p) => publicUserIds.has(p.userId));
+  const userMap = Object.fromEntries(publicUsers.map((u) => [u.id, u]));
 
   return (
     <div className="mx-auto flex min-h-screen max-w-lg flex-col bg-white dark:bg-gray-950">

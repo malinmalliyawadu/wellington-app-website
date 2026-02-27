@@ -48,6 +48,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     getUser(post.userId),
     getPlace(post.placeId),
   ]);
+  if (user?.profileVisibility === "private") return { title: "Post not found" };
 
   const truncatedContent =
     post.content.length > 100
@@ -107,6 +108,7 @@ export default async function PostPage({ params }: Props) {
     getUser(post.userId),
     getPlace(post.placeId),
   ]);
+  if (user?.profileVisibility === "private") notFound();
 
   const image =
     post.media?.[0]?.mediaUrl ?? post.mediaUrl;

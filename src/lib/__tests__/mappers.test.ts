@@ -328,6 +328,7 @@ describe("mapProfile", () => {
       display_name: "Jane J",
       avatar_url: "https://example.com/avatar.jpg",
       bio: "Wellington local",
+      profile_visibilty: "public",
     });
 
     expect(result).toEqual({
@@ -336,6 +337,7 @@ describe("mapProfile", () => {
       displayName: "Jane J",
       avatarUrl: "https://example.com/avatar.jpg",
       bio: "Wellington local",
+      profileVisibility: "public",
     });
   });
 
@@ -346,8 +348,23 @@ describe("mapProfile", () => {
       display_name: "Doe",
       avatar_url: "https://example.com/avatar2.jpg",
       bio: null,
+      profile_visibilty: "private",
     });
 
     expect(result.bio).toBeUndefined();
+    expect(result.profileVisibility).toBe("private");
+  });
+
+  it("defaults profileVisibility to public when null", () => {
+    const result = mapProfile({
+      id: "u3",
+      username: "anon",
+      display_name: "Anon",
+      avatar_url: "https://example.com/avatar3.jpg",
+      bio: null,
+      profile_visibilty: null,
+    });
+
+    expect(result.profileVisibility).toBe("public");
   });
 });
