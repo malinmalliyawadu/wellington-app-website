@@ -10,6 +10,8 @@ export const APP_STORE_URL = `https://apps.apple.com/app/welly-go-local/id${APP_
 export const PLAY_STORE_URL =
   "https://play.google.com/store/apps/details?id=com.welly.app"; // TODO: replace with real ID
 
+export const PAGE_SIZE = 24;
+
 export const BRAND_COLOR = "#00A5E0";
 
 export const CATEGORY_LABELS: Record<string, string> = {
@@ -49,6 +51,42 @@ export function getTrailDeepLink(trailId: string): string {
 export function getGuideDeepLink(guideId: string): string {
   return getDeepLink(`feed/guide/${guideId}`);
 }
+
+export const EVENT_CATEGORY_LABELS: Record<string, string> = {
+  music: "Music",
+  comedy: "Comedy",
+  art: "Art",
+  food: "Food",
+  market: "Market",
+  community: "Community",
+  quiz: "Quiz",
+  craft: "Craft",
+  kids: "Kids",
+  cultural: "Cultural",
+};
+
+export const EVENT_CATEGORY_COLORS: Record<string, string> = {
+  music: "#8B5CF6",
+  comedy: "#F59E0B",
+  art: "#EC4899",
+  food: "#EF4444",
+  market: "#10B981",
+  community: "#3B82F6",
+  quiz: "#6366F1",
+  craft: "#F97316",
+  kids: "#14B8A6",
+  cultural: "#A855F7",
+};
+
+export const PLACE_CATEGORY_COLORS: Record<string, string> = {
+  cafe: "#F59E0B",
+  restaurant: "#EF4444",
+  bar: "#8B5CF6",
+  attraction: "#3B82F6",
+  park: "#10B981",
+  venue: "#EC4899",
+  trail: "#14B8A6",
+};
 
 export const DIFFICULTY_LABELS: Record<string, string> = {
   easy: "Easy",

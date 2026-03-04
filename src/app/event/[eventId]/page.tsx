@@ -6,7 +6,7 @@ import { mapEvent, mapPlace } from "@/lib/mappers";
 import { SITE_URL, APP_STORE_ID, getEventDeepLink, CATEGORY_LABELS } from "@/lib/constants";
 import { OpenInAppButton } from "@/components/OpenInAppButton";
 import { AppStoreBanner } from "@/components/AppStoreBanner";
-import { ThemeToggle } from "@/components/ThemeToggle";
+
 
 export const revalidate = 300;
 
@@ -158,7 +158,7 @@ export default async function EventPage({ params }: Props) {
         {/* Price */}
         {event.price !== undefined && event.price !== null && (
           <p className="text-sm font-medium text-gray-700 dark:text-gray-200">
-            {event.price === 0 ? "Free" : `$${event.price}`}
+            {event.price === 0 ? "Free" : `$${event.price.toFixed(2)}`}
           </p>
         )}
 
@@ -186,9 +186,6 @@ export default async function EventPage({ params }: Props) {
           <OpenInAppButton deepLink={getEventDeepLink(eventId)} />
         </div>
         <AppStoreBanner />
-        <div className="flex justify-center">
-          <ThemeToggle />
-        </div>
       </div>
     </div>
   );

@@ -6,7 +6,7 @@ import { mapProfile, mapPost } from "@/lib/mappers";
 import { SITE_URL, APP_STORE_ID, getUserDeepLink } from "@/lib/constants";
 import { OpenInAppButton } from "@/components/OpenInAppButton";
 import { AppStoreBanner } from "@/components/AppStoreBanner";
-import { ThemeToggle } from "@/components/ThemeToggle";
+
 
 export const revalidate = 300;
 
@@ -166,9 +166,6 @@ export default async function UserPage({ params }: Props) {
           <OpenInAppButton deepLink={getUserDeepLink(userId)} />
         </div>
         <AppStoreBanner />
-        <div className="flex justify-center">
-          <ThemeToggle />
-        </div>
       </div>
     </div>
   );

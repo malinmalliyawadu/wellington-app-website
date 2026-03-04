@@ -75,6 +75,7 @@ export function mapEvent(row: {
   category: string;
   ticket_url: string | null;
   price: number | null;
+  ai_score?: number | null;
 }): Event {
   return {
     id: row.id,
@@ -88,6 +89,7 @@ export function mapEvent(row: {
     category: row.category as Event["category"],
     ticketUrl: row.ticket_url ?? undefined,
     price: row.price,
+    aiScore: row.ai_score ?? undefined,
   };
 }
 
