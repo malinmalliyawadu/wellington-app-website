@@ -71,7 +71,7 @@ export function EventCard({ event, venueName }: EventCardProps) {
         )}
         {event.price !== undefined && event.price !== null && (
           <p className="mt-auto pt-1 text-xs font-medium text-gray-700 dark:text-gray-300">
-            {event.price === 0 ? "Free" : `$${event.price}`}
+            {event.price === 0 ? "Free" : `$${event.price.toFixed(2)}`}
           </p>
         )}
       </div>

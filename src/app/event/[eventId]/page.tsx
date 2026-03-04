@@ -158,7 +158,7 @@ export default async function EventPage({ params }: Props) {
         {/* Price */}
         {event.price !== undefined && event.price !== null && (
           <p className="text-sm font-medium text-gray-700 dark:text-gray-200">
-            {event.price === 0 ? "Free" : `$${event.price}`}
+            {event.price === 0 ? "Free" : `$${event.price.toFixed(2)}`}
           </p>
         )}
 
