@@ -11,7 +11,7 @@ import {
 } from "@/lib/constants";
 import { OpenInAppButton } from "@/components/OpenInAppButton";
 import { AppStoreBanner } from "@/components/AppStoreBanner";
-import { ThemeToggle } from "@/components/ThemeToggle";
+
 
 export const revalidate = 3600;
 
@@ -188,9 +188,6 @@ export default async function PlacePage({ params }: Props) {
           <OpenInAppButton deepLink={getPlaceDeepLink(placeId)} />
         </div>
         <AppStoreBanner />
-        <div className="flex justify-center">
-          <ThemeToggle />
-        </div>
       </div>
     </div>
   );

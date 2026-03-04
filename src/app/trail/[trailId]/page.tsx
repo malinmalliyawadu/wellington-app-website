@@ -11,7 +11,7 @@ import {
 } from "@/lib/constants";
 import { OpenInAppButton } from "@/components/OpenInAppButton";
 import { AppStoreBanner } from "@/components/AppStoreBanner";
-import { ThemeToggle } from "@/components/ThemeToggle";
+
 
 export const revalidate = 300;
 
@@ -200,9 +200,6 @@ export default async function TrailPage({ params }: Props) {
           <OpenInAppButton deepLink={getTrailDeepLink(trailId)} />
         </div>
         <AppStoreBanner />
-        <div className="flex justify-center">
-          <ThemeToggle />
-        </div>
       </div>
     </div>
   );

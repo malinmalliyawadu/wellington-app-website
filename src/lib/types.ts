@@ -70,6 +70,7 @@ export interface Event {
   attendeeIds?: string[];
   ticketUrl?: string;
   price?: number | null;
+  aiScore?: number | null;
 }
 
 export interface User {

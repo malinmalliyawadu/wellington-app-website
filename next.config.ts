@@ -16,6 +16,14 @@ const nextConfig: NextConfig = {
         protocol: "https",
         hostname: "lh3.googleusercontent.com",
       },
+      {
+        protocol: "https",
+        hostname: "cdn.eventfinda.co.nz",
+      },
+      {
+        protocol: "https",
+        hostname: "cdn.filestackcontent.com",
+      },
     ],
   },
   headers: async () => [

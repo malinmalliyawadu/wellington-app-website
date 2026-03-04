@@ -11,7 +11,7 @@ import {
 } from "@/lib/constants";
 import { OpenInAppButton } from "@/components/OpenInAppButton";
 import { AppStoreBanner } from "@/components/AppStoreBanner";
-import { ThemeToggle } from "@/components/ThemeToggle";
+
 
 export const revalidate = 60;
 
@@ -192,9 +192,6 @@ export default async function GuidePage({ params }: Props) {
           <OpenInAppButton deepLink={getGuideDeepLink(guideId)} />
         </div>
         <AppStoreBanner />
-        <div className="flex justify-center">
-          <ThemeToggle />
-        </div>
       </div>
     </div>
   );
