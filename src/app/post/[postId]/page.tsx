@@ -3,10 +3,16 @@ import Image from "next/image";
 import { notFound } from "next/navigation";
 import { supabase } from "@/lib/supabase";
 import { mapPost, mapPlace, mapProfile } from "@/lib/mappers";
-import { SITE_URL, APP_STORE_ID, getPostDeepLink } from "@/lib/constants";
+import {
+  SITE_URL,
+  APP_STORE_ID,
+  getPostDeepLink,
+  CATEGORY_LABELS,
+  PLACE_CATEGORY_COLORS,
+} from "@/lib/constants";
 import { OpenInAppButton } from "@/components/OpenInAppButton";
 import { AppStoreBanner } from "@/components/AppStoreBanner";
-import { ThemeToggle } from "@/components/ThemeToggle";
+import { MediaGallery } from "./MediaGallery";
 
 export const revalidate = 60;
 
@@ -84,14 +90,21 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 function getOgImageUrl(
-  post: { mediaUrl?: string; thumbnailUrl?: string; media?: { mediaUrl: string; thumbnailUrl?: string }[]; content: string },
+  post: {
+    mediaUrl?: string;
+    thumbnailUrl?: string;
+    media?: { mediaUrl: string; thumbnailUrl?: string }[];
+    content: string;
+  },
   user: { displayName: string } | null,
-  place: { name: string } | null,
+  place: { name: string } | null
 ): string {
-  // Use post image if available
-  const image = post.media?.[0]?.mediaUrl ?? post.media?.[0]?.thumbnailUrl ?? post.mediaUrl ?? post.thumbnailUrl;
+  const image =
+    post.media?.[0]?.mediaUrl ??
+    post.media?.[0]?.thumbnailUrl ??
+    post.mediaUrl ??
+    post.thumbnailUrl;
   if (image) return image;
-  // Fall back to dynamic OG image
   const params = new URLSearchParams({
     title: post.content.slice(0, 120),
     subtitle: [user?.displayName, place?.name].filter(Boolean).join(" at "),
@@ -110,12 +123,39 @@ export default async function PostPage({ params }: Props) {
   ]);
   if (user?.profileVisibility === "private") notFound();
 
-  const image =
-    post.media?.[0]?.mediaUrl ?? post.mediaUrl;
+  const mediaItems =
+    post.media && post.media.length > 0
+      ? post.media.map((m) => ({
+          id: m.id,
+          mediaUrl: m.mediaUrl,
+          thumbnailUrl: m.thumbnailUrl,
+          mediaType: m.mediaType,
+        }))
+      : post.mediaUrl
+        ? [
+            {
+              id: post.id,
+              mediaUrl: post.mediaUrl,
+              thumbnailUrl: post.thumbnailUrl,
+              mediaType:
+                post.type === "video"
+                  ? ("video" as const)
+                  : ("photo" as const),
+            },
+          ]
+        : [];
+
+  const hasMedia = mediaItems.length > 0;
+  const categoryColor = place
+    ? (PLACE_CATEGORY_COLORS[place.category] ?? "#6B7280")
+    : "#6B7280";
+  const categoryLabel = place
+    ? (CATEGORY_LABELS[place.category] ?? place.category)
+    : undefined;
 
   return (
     <div className="mx-auto flex min-h-screen max-w-lg flex-col bg-white dark:bg-gray-950">
-      {/* Header */}
+      {/* Author header */}
       <header className="flex items-center gap-3 border-b border-gray-100 px-4 py-3 dark:border-gray-800">
         {user?.avatarUrl && (
           <Image
@@ -131,52 +171,76 @@ export default async function PostPage({ params }: Props) {
             {user?.displayName}
           </p>
           {user?.username && (
-            <p className="text-xs text-gray-500 dark:text-gray-400">@{user.username}</p>
+            <p className="text-xs text-gray-500 dark:text-gray-400">
+              @{user.username}
+            </p>
           )}
         </div>
       </header>
 
-      {/* Image */}
-      {image && (
-        <div className="relative aspect-square w-full bg-gray-100 dark:bg-gray-800">
-          <Image
-            src={image}
-            alt={post.content}
-            fill
-            className="object-cover"
-            sizes="(max-width: 512px) 100vw, 512px"
-            priority
-          />
-        </div>
-      )}
+      {/* Media */}
+      {hasMedia && <MediaGallery items={mediaItems} />}
 
       {/* Content */}
-      <div className="flex flex-col gap-3 px-4 py-4">
-        <p className="text-sm leading-relaxed text-gray-900 dark:text-white">{post.content}</p>
+      <div className="flex flex-col gap-4 px-4 py-5">
+        {/* Caption */}
+        {post.content && (
+          <p className="text-sm leading-relaxed text-gray-900 dark:text-white">
+            {post.content}
+          </p>
+        )}
 
+        {/* Place */}
         {place && (
           <a
             href={`/place/${place.id}`}
-            className="flex items-center gap-2 rounded-lg bg-gray-50 px-3 py-2 text-sm text-gray-700 transition-colors hover:bg-gray-100 dark:bg-gray-900 dark:text-gray-200 dark:hover:bg-gray-800"
+            className="flex items-center gap-3 rounded-xl bg-gray-50 px-3 py-3 transition-colors hover:bg-gray-100 dark:bg-gray-900 dark:hover:bg-gray-800"
           >
-            <svg
-              width="16"
-              height="16"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
+            <div
+              className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg"
+              style={{ backgroundColor: `${categoryColor}20` }}
             >
-              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
-              <circle cx="12" cy="10" r="3" />
-            </svg>
-            <span className="font-medium">{place.name}</span>
-            <span className="text-gray-400 dark:text-gray-500">{place.address}</span>
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke={categoryColor}
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+                <circle cx="12" cy="10" r="3" />
+              </svg>
+            </div>
+            <div className="min-w-0 flex-1">
+              <p className="truncate text-sm font-medium text-gray-900 dark:text-white">
+                {place.name}
+              </p>
+              <p className="truncate text-xs text-gray-500 dark:text-gray-400">
+                {categoryLabel} · {place.address}
+              </p>
+            </div>
           </a>
         )}
 
+        {/* Likes & date */}
         <div className="flex items-center gap-4 text-xs text-gray-400 dark:text-gray-500">
-          <span>{post.likes} likes</span>
+          {post.likes > 0 && (
+            <span className="flex items-center gap-1">
+              <svg
+                width="14"
+                height="14"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+                className="text-red-400"
+              >
+                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
+              </svg>
+              {post.likes} {post.likes === 1 ? "like" : "likes"}
+            </span>
+          )}
           <span>
             {new Date(post.createdAt).toLocaleDateString("en-NZ", {
               day: "numeric",
@@ -193,9 +257,6 @@ export default async function PostPage({ params }: Props) {
           <OpenInAppButton deepLink={getPostDeepLink(postId)} />
         </div>
         <AppStoreBanner />
-        <div className="flex justify-center">
-          <ThemeToggle />
-        </div>
       </div>
     </div>
   );

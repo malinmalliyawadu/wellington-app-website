@@ -1,0 +1,12 @@
+import { NextRequest, NextResponse } from "next/server";
+import { fetchGuidesPage } from "@/lib/queries";
+import { PAGE_SIZE } from "@/lib/constants";
+
+export async function GET(request: NextRequest) {
+  const params = request.nextUrl.searchParams;
+  const offset = Number(params.get("offset") ?? 0);
+  const pageSize = Number(params.get("pageSize") ?? PAGE_SIZE);
+
+  const result = await fetchGuidesPage(offset, pageSize);
+  return NextResponse.json(result);
+}

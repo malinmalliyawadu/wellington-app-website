@@ -6,7 +6,7 @@ import { mapEvent, mapPlace } from "@/lib/mappers";
 import { SITE_URL, APP_STORE_ID, getEventDeepLink, CATEGORY_LABELS } from "@/lib/constants";
 import { OpenInAppButton } from "@/components/OpenInAppButton";
 import { AppStoreBanner } from "@/components/AppStoreBanner";
-import { ThemeToggle } from "@/components/ThemeToggle";
+
 
 export const revalidate = 300;
 
@@ -43,9 +43,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     day: "numeric",
     month: "long",
   });
+  const eventDescription = event.aiDescription ?? event.description;
   const description = place
-    ? `${formattedDate} at ${place.name} - ${event.description.slice(0, 150)}`
-    : `${formattedDate} - ${event.description.slice(0, 150)}`;
+    ? `${formattedDate} at ${place.name} - ${eventDescription.slice(0, 150)}`
+    : `${formattedDate} - ${eventDescription.slice(0, 150)}`;
 
   const imageUrl = event.imageUrl
     ? event.imageUrl
@@ -158,13 +159,13 @@ export default async function EventPage({ params }: Props) {
         {/* Price */}
         {event.price !== undefined && event.price !== null && (
           <p className="text-sm font-medium text-gray-700 dark:text-gray-200">
-            {event.price === 0 ? "Free" : `$${event.price}`}
+            {event.price === 0 ? "Free" : `$${event.price.toFixed(2)}`}
           </p>
         )}
 
         {/* Description */}
         <p className="text-sm leading-relaxed text-gray-600 whitespace-pre-line dark:text-gray-300">
-          {event.description}
+          {event.aiDescription ?? event.description}
         </p>
 
         {/* Ticket link */}
@@ -186,9 +187,6 @@ export default async function EventPage({ params }: Props) {
           <OpenInAppButton deepLink={getEventDeepLink(eventId)} />
         </div>
         <AppStoreBanner />
-        <div className="flex justify-center">
-          <ThemeToggle />
-        </div>
       </div>
     </div>
   );
