@@ -3,11 +3,16 @@ import Image from "next/image";
 import { notFound } from "next/navigation";
 import { supabase } from "@/lib/supabase";
 import { mapEvent, mapPlace } from "@/lib/mappers";
-import { SITE_URL, APP_STORE_ID, getEventDeepLink, CATEGORY_LABELS } from "@/lib/constants";
+import {
+  SITE_URL,
+  APP_STORE_ID,
+  getEventDeepLink,
+  EVENT_CATEGORY_LABELS,
+  EVENT_CATEGORY_COLORS,
+} from "@/lib/constants";
 import { OpenInAppButton } from "@/components/OpenInAppButton";
 import { AppStoreBanner } from "@/components/AppStoreBanner";
 import { Markdown } from "@/components/Markdown";
-
 
 export const revalidate = 300;
 
@@ -81,40 +86,220 @@ export default async function EventPage({ params }: Props) {
   if (!event) notFound();
 
   const place = await getPlace(event.placeId);
-  const formattedDate = new Date(event.date).toLocaleDateString("en-NZ", {
+  const eventDate = new Date(event.date);
+
+  const dayName = eventDate.toLocaleDateString("en-NZ", { weekday: "short" }).toUpperCase();
+  const dayNum = eventDate.getDate();
+  const monthName = eventDate.toLocaleDateString("en-NZ", { month: "short" }).toUpperCase();
+  const yearNum = eventDate.getFullYear();
+
+  const formattedDateLong = eventDate.toLocaleDateString("en-NZ", {
     weekday: "long",
     day: "numeric",
     month: "long",
     year: "numeric",
   });
 
+  const categoryColor = EVENT_CATEGORY_COLORS[event.category] ?? "#00A5E0";
+  const categoryLabel = EVENT_CATEGORY_LABELS[event.category] ?? event.category;
+
+  const isFree = event.price === 0;
+  const hasPrice = event.price !== undefined && event.price !== null;
+
   return (
     <div className="mx-auto flex min-h-screen max-w-lg flex-col bg-white dark:bg-gray-950">
-      {/* Event Image */}
-      {event.imageUrl && (
-        <div className="relative aspect-video w-full bg-gray-100 dark:bg-gray-800">
-          <Image
-            src={event.imageUrl}
-            alt={event.title}
-            fill
-            className="object-cover"
-            sizes="(max-width: 512px) 100vw, 512px"
-            priority
-          />
+      {/* Hero */}
+      <div className="relative">
+        {event.imageUrl ? (
+          <div className="relative aspect-[4/5] w-full overflow-hidden">
+            <Image
+              src={event.imageUrl}
+              alt={event.title}
+              fill
+              className="object-cover"
+              sizes="(max-width: 512px) 100vw, 512px"
+              priority
+            />
+            {/* Gradient overlay */}
+            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+          </div>
+        ) : (
+          <div
+            className="relative aspect-[3/2] w-full"
+            style={{
+              background: `linear-gradient(135deg, ${categoryColor}18 0%, ${categoryColor}08 50%, ${categoryColor}18 100%)`,
+            }}
+          >
+            <div className="absolute inset-0 flex items-center justify-center opacity-[0.06]">
+              <svg width="120" height="120" viewBox="0 0 24 24" fill="currentColor" className="text-gray-900 dark:text-white">
+                <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+              </svg>
+            </div>
+          </div>
+        )}
+
+        {/* Overlaid content on hero */}
+        <div className="absolute inset-x-0 bottom-0 px-5 pb-5">
+          {/* Category pill */}
+          <span
+            className="mb-3 inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-bold tracking-wide uppercase backdrop-blur-md"
+            style={{
+              backgroundColor: `${categoryColor}cc`,
+              color: "#fff",
+            }}
+          >
+            <span
+              className="inline-block h-1.5 w-1.5 rounded-full bg-white"
+            />
+            {categoryLabel}
+          </span>
+
+          {/* Title */}
+          {event.imageUrl && (
+            <h1 className="text-2xl leading-tight font-extrabold tracking-tight text-white drop-shadow-lg">
+              {event.title}
+            </h1>
+          )}
+        </div>
+      </div>
+
+      {/* Title (when no image) */}
+      {!event.imageUrl && (
+        <div className="px-5 pt-5">
+          <h1 className="text-2xl font-extrabold tracking-tight text-gray-900 dark:text-white">
+            {event.title}
+          </h1>
         </div>
       )}
 
-      {/* Content */}
-      <div className="flex flex-col gap-4 px-4 py-5">
-        <div>
-          <span className="mb-2 inline-block rounded-full bg-[#00A5E0]/10 px-3 py-1 text-xs font-semibold text-[#00A5E0] capitalize dark:bg-[#00A5E0]/20">
-            {CATEGORY_LABELS[event.category] ?? event.category}
+      {/* Info strip */}
+      <div className="flex gap-3 px-5 pt-5">
+        {/* Date block */}
+        <div
+          className="flex flex-col items-center justify-center rounded-2xl px-4 py-3"
+          style={{
+            backgroundColor: `${categoryColor}10`,
+          }}
+        >
+          <span
+            className="text-[10px] font-bold tracking-widest uppercase"
+            style={{ color: categoryColor }}
+          >
+            {dayName}
           </span>
-          <h1 className="text-xl font-bold text-gray-900 dark:text-white">{event.title}</h1>
+          <span className="text-2xl font-extrabold leading-none text-gray-900 dark:text-white">
+            {dayNum}
+          </span>
+          <span className="text-[10px] font-semibold tracking-wider text-gray-500 uppercase dark:text-gray-400">
+            {monthName} {yearNum}
+          </span>
         </div>
 
-        {/* Date & Time */}
-        <div className="flex items-center gap-2 text-sm text-gray-700 dark:text-gray-200">
+        {/* Details column */}
+        <div className="flex min-w-0 flex-1 flex-col justify-center gap-2">
+          {/* Time */}
+          <div className="flex items-center gap-2 text-sm text-gray-700 dark:text-gray-200">
+            <svg
+              width="15"
+              height="15"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              className="shrink-0"
+              style={{ color: categoryColor }}
+            >
+              <circle cx="12" cy="12" r="10" />
+              <polyline points="12 6 12 12 16 14" />
+            </svg>
+            <span className="font-semibold">
+              {event.startTime}
+              {event.endTime && (
+                <span className="font-normal text-gray-400 dark:text-gray-500">
+                  {" "}&ndash; {event.endTime}
+                </span>
+              )}
+            </span>
+          </div>
+
+          {/* Price */}
+          {hasPrice && (
+            <div className="flex items-center gap-2 text-sm">
+              <svg
+                width="15"
+                height="15"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className="shrink-0"
+                style={{ color: categoryColor }}
+              >
+                {isFree ? (
+                  <>
+                    <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
+                  </>
+                ) : (
+                  <>
+                    <line x1="12" y1="1" x2="12" y2="23" />
+                    <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
+                  </>
+                )}
+              </svg>
+              {isFree ? (
+                <span className="font-bold text-emerald-600 dark:text-emerald-400">Free</span>
+              ) : (
+                <span className="font-semibold text-gray-700 dark:text-gray-200">
+                  ${event.price!.toFixed(2)}
+                </span>
+              )}
+            </div>
+          )}
+
+          {/* Date long form */}
+          <p className="text-xs text-gray-400 dark:text-gray-500">
+            {formattedDateLong}
+          </p>
+        </div>
+      </div>
+
+      {/* Place card */}
+      {place && (
+        <a
+          href={`/place/${place.id}`}
+          className="group mx-5 mt-4 flex items-center gap-3 rounded-2xl border border-gray-100 bg-gray-50/80 px-4 py-3 transition-all hover:border-gray-200 hover:bg-gray-100/80 dark:border-gray-800 dark:bg-gray-900/50 dark:hover:border-gray-700 dark:hover:bg-gray-800/50"
+        >
+          <div
+            className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl"
+            style={{ backgroundColor: `${categoryColor}15` }}
+          >
+            <svg
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              style={{ color: categoryColor }}
+            >
+              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+              <circle cx="12" cy="10" r="3" />
+            </svg>
+          </div>
+          <div className="min-w-0 flex-1">
+            <p className="truncate text-sm font-bold text-gray-900 dark:text-white">
+              {place.name}
+            </p>
+            <p className="truncate text-xs text-gray-500 dark:text-gray-400">
+              {place.address}
+            </p>
+          </div>
           <svg
             width="16"
             height="16"
@@ -122,24 +307,31 @@ export default async function EventPage({ params }: Props) {
             fill="none"
             stroke="currentColor"
             strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            className="shrink-0 text-gray-300 transition-colors group-hover:text-gray-500 dark:text-gray-600 dark:group-hover:text-gray-400"
           >
-            <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
-            <line x1="16" y1="2" x2="16" y2="6" />
-            <line x1="8" y1="2" x2="8" y2="6" />
-            <line x1="3" y1="10" x2="21" y2="10" />
+            <polyline points="9 18 15 12 9 6" />
           </svg>
-          <span className="font-medium">{formattedDate}</span>
-          <span className="text-gray-400 dark:text-gray-500">
-            {event.startTime}
-            {event.endTime ? ` - ${event.endTime}` : ""}
-          </span>
-        </div>
+        </a>
+      )}
 
-        {/* Place */}
-        {place && (
+      {/* Description */}
+      <div className="px-5 pt-5">
+        <div className="text-[15px] leading-relaxed text-gray-600 dark:text-gray-300">
+          <Markdown>{event.aiDescription ?? event.description}</Markdown>
+        </div>
+      </div>
+
+      {/* Ticket CTA */}
+      {event.ticketUrl && (
+        <div className="px-5 pt-5">
           <a
-            href={`/place/${place.id}`}
-            className="flex items-center gap-2 rounded-lg bg-gray-50 px-3 py-2 text-sm text-gray-700 transition-colors hover:bg-gray-100 dark:bg-gray-900 dark:text-gray-200 dark:hover:bg-gray-800"
+            href={event.ticketUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center justify-center gap-2 rounded-2xl px-5 py-3.5 text-sm font-bold text-white transition-opacity hover:opacity-90"
+            style={{ backgroundColor: categoryColor }}
           >
             <svg
               width="16"
@@ -147,43 +339,28 @@ export default async function EventPage({ params }: Props) {
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
-              strokeWidth="2"
+              strokeWidth="2.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
             >
-              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
-              <circle cx="12" cy="10" r="3" />
+              <path d="M2 9a3 3 0 0 1 0 6v2a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-2a3 3 0 0 1 0-6V7a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2Z" />
+              <path d="M13 5v2" />
+              <path d="M13 17v2" />
+              <path d="M13 11v2" />
             </svg>
-            <span className="font-medium">{place.name}</span>
-            <span className="text-gray-400 dark:text-gray-500">{place.address}</span>
-          </a>
-        )}
-
-        {/* Price */}
-        {event.price !== undefined && event.price !== null && (
-          <p className="text-sm font-medium text-gray-700 dark:text-gray-200">
-            {event.price === 0 ? "Free" : `$${event.price.toFixed(2)}`}
-          </p>
-        )}
-
-        {/* Description */}
-        <div className="text-sm leading-relaxed text-gray-600 dark:text-gray-300">
-          <Markdown>{event.aiDescription ?? event.description}</Markdown>
-        </div>
-
-        {/* Ticket link */}
-        {event.ticketUrl && (
-          <a
-            href={event.ticketUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center justify-center rounded-full border border-[#00A5E0] px-5 py-2.5 text-sm font-semibold text-[#00A5E0] transition-colors hover:bg-[#00A5E0]/5"
-          >
             Get Tickets
           </a>
-        )}
-      </div>
+        </div>
+      )}
 
       {/* CTA */}
-      <div className="mt-auto flex flex-col gap-4 border-t border-gray-100 px-4 py-6 dark:border-gray-800">
+      <div className="mt-auto flex flex-col gap-4 px-5 pt-8 pb-6">
+        <div
+          className="h-px w-full"
+          style={{
+            background: `linear-gradient(to right, transparent, ${categoryColor}30, transparent)`,
+          }}
+        />
         <div className="text-center">
           <OpenInAppButton deepLink={getEventDeepLink(eventId)} />
         </div>
