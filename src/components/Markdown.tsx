@@ -7,6 +7,7 @@ interface MarkdownProps {
 export function Markdown({ children }: MarkdownProps) {
   return (
     <ReactMarkdown
+      children={children}
       components={{
         a: ({ href, children }) => (
           <a
