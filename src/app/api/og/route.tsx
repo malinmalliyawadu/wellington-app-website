@@ -1,8 +1,6 @@
 import { ImageResponse } from "@vercel/og";
 import { NextRequest } from "next/server";
 
-export const runtime = "edge";
-
 const BRAND_COLOR = "#00A5E0";
 const BRAND_DARK = "#0086B8";
 

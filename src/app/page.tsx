@@ -14,9 +14,8 @@ import { PostCard } from "@/components/PostCard";
 import { PlaceCard } from "@/components/PlaceCard";
 import { GuideCard } from "@/components/GuideCard";
 import { Footer } from "@/components/Footer";
+import { cacheLife } from "next/cache";
 import type { User, Place } from "@/lib/types";
-
-export const revalidate = 300;
 
 async function getUpcomingEvents() {
   const { data } = await supabase
@@ -138,6 +137,8 @@ async function getGuidePlaceCounts(guideIds: string[]) {
 }
 
 export default async function HomePage() {
+  "use cache";
+  cacheLife("moderate");
   const [events, recentPosts, { places, postCounts }, guides] =
     await Promise.all([
       getUpcomingEvents(),

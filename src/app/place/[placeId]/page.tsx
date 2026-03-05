@@ -11,11 +11,9 @@ import {
   getPlaceDeepLink,
   CATEGORY_LABELS,
 } from "@/lib/constants";
+import { cacheLife } from "next/cache";
 import { OpenInAppButton } from "@/components/OpenInAppButton";
 import { AppStoreBanner } from "@/components/AppStoreBanner";
-
-
-export const revalidate = 3600;
 
 async function getPlace(placeId: string) {
   const { data } = await supabase
@@ -48,6 +46,8 @@ async function getUsersByIds(ids: string[]) {
 type Props = { params: Promise<{ placeId: string }> };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  "use cache";
+  cacheLife("infrequent");
   const { placeId } = await params;
   const place = await getPlace(placeId);
   if (!place) return { title: "Place not found" };
@@ -92,6 +92,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export default async function PlacePage({ params }: Props) {
+  "use cache";
+  cacheLife("infrequent");
   const { placeId } = await params;
   const place = await getPlace(placeId);
   if (!place) notFound();

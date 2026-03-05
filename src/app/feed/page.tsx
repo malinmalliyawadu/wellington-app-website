@@ -2,10 +2,9 @@ import type { Metadata } from "next";
 import { fetchFeedPage } from "@/lib/queries";
 import { PAGE_SIZE } from "@/lib/constants";
 import { FeedGrid } from "./FeedGrid";
+import { cacheLife } from "next/cache";
 import { AppStoreBanner } from "@/components/AppStoreBanner";
 import { Footer } from "@/components/Footer";
-
-export const revalidate = 60;
 
 export const metadata: Metadata = {
   title: "Feed",
@@ -14,6 +13,8 @@ export const metadata: Metadata = {
 };
 
 export default async function FeedPage() {
+  "use cache";
+  cacheLife("frequent");
   const { items, nextOffset } = await fetchFeedPage(0, PAGE_SIZE);
 
   return (

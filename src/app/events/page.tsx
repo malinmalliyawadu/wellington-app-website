@@ -8,10 +8,9 @@ import {
 } from "@/lib/constants";
 import { CategoryFilter } from "@/components/CategoryFilter";
 import { EventsGrid } from "./EventsGrid";
+import { cacheLife } from "next/cache";
 import { AppStoreBanner } from "@/components/AppStoreBanner";
 import { Footer } from "@/components/Footer";
-
-export const revalidate = 300;
 
 export const metadata: Metadata = {
   title: "Events",
@@ -27,14 +26,45 @@ const categories = Object.entries(EVENT_CATEGORY_LABELS).map(
   })
 );
 
-export default async function EventsPage({
+async function getCachedEvents(category?: string) {
+  "use cache";
+  cacheLife("moderate");
+  return fetchEventsPage(0, PAGE_SIZE, category);
+}
+
+async function EventsContent({
   searchParams,
 }: {
   searchParams: Promise<{ category?: string }>;
 }) {
   const { category } = await searchParams;
-  const { items, nextOffset } = await fetchEventsPage(0, PAGE_SIZE, category);
+  const { items, nextOffset } = await getCachedEvents(category);
 
+  return (
+    <>
+      <div className="mt-6">
+        <Suspense>
+          <CategoryFilter categories={categories} />
+        </Suspense>
+      </div>
+
+      <div className="mt-6">
+        <EventsGrid
+          key={category ?? "all"}
+          initialItems={items}
+          initialNextOffset={nextOffset}
+          category={category}
+        />
+      </div>
+    </>
+  );
+}
+
+export default function EventsPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ category?: string }>;
+}) {
   return (
     <div className="min-h-screen bg-white dark:bg-gray-950">
       <div className="mx-auto max-w-5xl px-4 py-8">
@@ -45,20 +75,9 @@ export default async function EventsPage({
           What&apos;s on in Wellington
         </p>
 
-        <div className="mt-6">
-          <Suspense>
-            <CategoryFilter categories={categories} />
-          </Suspense>
-        </div>
-
-        <div className="mt-6">
-          <EventsGrid
-            key={category ?? "all"}
-            initialItems={items}
-            initialNextOffset={nextOffset}
-            category={category}
-          />
-        </div>
+        <Suspense>
+          <EventsContent searchParams={searchParams} />
+        </Suspense>
 
         <div className="mt-12">
           <AppStoreBanner />

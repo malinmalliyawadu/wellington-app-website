@@ -10,12 +10,10 @@ import {
   DIFFICULTY_LABELS,
   DIFFICULTY_COLORS,
 } from "@/lib/constants";
+import { cacheLife } from "next/cache";
 import { OpenInAppButton } from "@/components/OpenInAppButton";
 import { AppStoreBanner } from "@/components/AppStoreBanner";
 import { Markdown } from "@/components/Markdown";
-
-
-export const revalidate = 300;
 
 async function getTrail(trailId: string) {
   const { data } = await supabase
@@ -38,6 +36,8 @@ async function getPlace(placeId: string) {
 type Props = { params: Promise<{ trailId: string }> };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  "use cache";
+  cacheLife("moderate");
   const { trailId } = await params;
   const trail = await getTrail(trailId);
   if (!trail) return { title: "Trail not found" };
@@ -70,6 +70,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export default async function TrailPage({ params }: Props) {
+  "use cache";
+  cacheLife("moderate");
   const { trailId } = await params;
   const trail = await getTrail(trailId);
   if (!trail) notFound();

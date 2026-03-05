@@ -12,11 +12,10 @@ import {
   CATEGORY_LABELS,
   PLACE_CATEGORY_COLORS,
 } from "@/lib/constants";
+import { cacheLife } from "next/cache";
 import { OpenInAppButton } from "@/components/OpenInAppButton";
 import { AppStoreBanner } from "@/components/AppStoreBanner";
 import { MediaGallery } from "./MediaGallery";
-
-export const revalidate = 60;
 
 async function getPost(postId: string) {
   const { data } = await supabase
@@ -48,6 +47,8 @@ async function getUser(userId: string) {
 type Props = { params: Promise<{ postId: string }> };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  "use cache";
+  cacheLife("frequent");
   const { postId } = await params;
   const post = await getPost(postId);
   if (!post) return { title: "Post not found" };
@@ -115,6 +116,8 @@ function getOgImageUrl(
 }
 
 export default async function PostPage({ params }: Props) {
+  "use cache";
+  cacheLife("frequent");
   const { postId } = await params;
   const post = await getPost(postId);
   if (!post) notFound();

@@ -12,11 +12,10 @@ import {
   EVENT_CATEGORY_LABELS,
   EVENT_CATEGORY_COLORS,
 } from "@/lib/constants";
+import { cacheLife } from "next/cache";
 import { OpenInAppButton } from "@/components/OpenInAppButton";
 import { AppStoreBanner } from "@/components/AppStoreBanner";
 import { Markdown } from "@/components/Markdown";
-
-export const revalidate = 300;
 
 async function getEvent(eventId: string) {
   const { data } = await supabase
@@ -39,6 +38,8 @@ async function getPlace(placeId: string) {
 type Props = { params: Promise<{ eventId: string }> };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  "use cache";
+  cacheLife("moderate");
   const { eventId } = await params;
   const event = await getEvent(eventId);
   if (!event) return { title: "Event not found" };
@@ -83,6 +84,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export default async function EventPage({ params }: Props) {
+  "use cache";
+  cacheLife("moderate");
   const { eventId } = await params;
   const event = await getEvent(eventId);
   if (!event) notFound();

@@ -2,10 +2,9 @@ import type { Metadata } from "next";
 import { fetchGuidesPage } from "@/lib/queries";
 import { PAGE_SIZE } from "@/lib/constants";
 import { GuidesGrid } from "./GuidesGrid";
+import { cacheLife } from "next/cache";
 import { AppStoreBanner } from "@/components/AppStoreBanner";
 import { Footer } from "@/components/Footer";
-
-export const revalidate = 300;
 
 export const metadata: Metadata = {
   title: "Guides",
@@ -14,6 +13,8 @@ export const metadata: Metadata = {
 };
 
 export default async function GuidesPage() {
+  "use cache";
+  cacheLife("moderate");
   const { items, nextOffset } = await fetchGuidesPage(0, PAGE_SIZE);
 
   return (

@@ -5,11 +5,9 @@ import { notFound } from "next/navigation";
 import { supabase } from "@/lib/supabase";
 import { mapProfile, mapPost } from "@/lib/mappers";
 import { SITE_URL, APP_STORE_ID, getUserDeepLink } from "@/lib/constants";
+import { cacheLife } from "next/cache";
 import { OpenInAppButton } from "@/components/OpenInAppButton";
 import { AppStoreBanner } from "@/components/AppStoreBanner";
-
-
-export const revalidate = 300;
 
 async function getUser(userId: string) {
   const { data } = await supabase
@@ -41,6 +39,8 @@ async function getFollowerCount(userId: string) {
 type Props = { params: Promise<{ userId: string }> };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  "use cache";
+  cacheLife("moderate");
   const { userId } = await params;
   const user = await getUser(userId);
   if (!user || user.profileVisibility === "private")
@@ -83,6 +83,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export default async function UserPage({ params }: Props) {
+  "use cache";
+  cacheLife("moderate");
   const { userId } = await params;
   const user = await getUser(userId);
   if (!user || user.profileVisibility === "private") notFound();

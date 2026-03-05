@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Suspense } from "react";
 import { Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
 import { SITE_URL, APP_NAME, APP_STORE_ID } from "@/lib/constants";
@@ -47,7 +48,7 @@ export default function RootLayout({
       </head>
       <body className={`${plusJakarta.variable} font-sans antialiased`}>
         <Nav />
-        {children}
+        <Suspense>{children}</Suspense>
       </body>
     </html>
   );

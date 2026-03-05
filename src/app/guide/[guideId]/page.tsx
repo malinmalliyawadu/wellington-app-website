@@ -11,12 +11,10 @@ import {
   getGuideDeepLink,
   CATEGORY_LABELS,
 } from "@/lib/constants";
+import { cacheLife } from "next/cache";
 import { OpenInAppButton } from "@/components/OpenInAppButton";
 import { AppStoreBanner } from "@/components/AppStoreBanner";
 import { Markdown } from "@/components/Markdown";
-
-
-export const revalidate = 60;
 
 async function getGuide(guideId: string) {
   const { data } = await supabase
@@ -51,6 +49,8 @@ async function getUser(userId: string) {
 type Props = { params: Promise<{ guideId: string }> };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  "use cache";
+  cacheLife("frequent");
   const { guideId } = await params;
   const guide = await getGuide(guideId);
   if (!guide) return { title: "Guide not found" };
@@ -90,6 +90,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export default async function GuidePage({ params }: Props) {
+  "use cache";
+  cacheLife("frequent");
   const { guideId } = await params;
   const guide = await getGuide(guideId);
   if (!guide) notFound();
