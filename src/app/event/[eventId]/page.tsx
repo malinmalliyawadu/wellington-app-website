@@ -101,6 +101,13 @@ export default async function EventPage({ params }: Props) {
     year: "numeric",
   });
 
+  function formatTime(time: string) {
+    const [h, m] = time.split(":").map(Number);
+    const period = h >= 12 ? "pm" : "am";
+    const hour = h % 12 || 12;
+    return m ? `${hour}:${String(m).padStart(2, "0")}${period}` : `${hour}${period}`;
+  }
+
   const categoryColor = EVENT_CATEGORY_COLORS[event.category] ?? "#00A5E0";
   const categoryLabel = EVENT_CATEGORY_LABELS[event.category] ?? event.category;
 
@@ -222,10 +229,10 @@ export default async function EventPage({ params }: Props) {
               <polyline points="12 6 12 12 16 14" />
             </svg>
             <span className="font-semibold">
-              {event.startTime}
+              {formatTime(event.startTime)}
               {event.endTime && (
                 <span className="font-normal text-gray-400 dark:text-gray-500">
-                  {" "}&ndash; {event.endTime}
+                  {" "}&ndash; {formatTime(event.endTime)}
                 </span>
               )}
             </span>
