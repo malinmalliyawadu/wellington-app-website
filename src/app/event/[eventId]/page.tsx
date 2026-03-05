@@ -43,9 +43,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     day: "numeric",
     month: "long",
   });
+  const eventDescription = event.aiDescription ?? event.description;
   const description = place
-    ? `${formattedDate} at ${place.name} - ${event.description.slice(0, 150)}`
-    : `${formattedDate} - ${event.description.slice(0, 150)}`;
+    ? `${formattedDate} at ${place.name} - ${eventDescription.slice(0, 150)}`
+    : `${formattedDate} - ${eventDescription.slice(0, 150)}`;
 
   const imageUrl = event.imageUrl
     ? event.imageUrl
@@ -164,7 +165,7 @@ export default async function EventPage({ params }: Props) {
 
         {/* Description */}
         <p className="text-sm leading-relaxed text-gray-600 whitespace-pre-line dark:text-gray-300">
-          {event.description}
+          {event.aiDescription ?? event.description}
         </p>
 
         {/* Ticket link */}

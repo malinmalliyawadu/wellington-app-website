@@ -71,6 +71,7 @@ export interface Event {
   ticketUrl?: string;
   price?: number | null;
   aiScore?: number | null;
+  aiDescription?: string;
 }
 
 export interface User {
