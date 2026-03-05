@@ -49,6 +49,11 @@ async function getUsersByIds(ids: string[]) {
   return (data ?? []).map(mapProfile);
 }
 
+export async function generateStaticParams() {
+  const { data } = await supabase.from("places").select("id");
+  return (data ?? []).map((row) => ({ placeId: row.id }));
+}
+
 type Props = { params: Promise<{ placeId: string }> };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {

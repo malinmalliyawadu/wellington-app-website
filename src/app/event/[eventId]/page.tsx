@@ -39,6 +39,11 @@ async function getPlace(placeId: string) {
   return data ? mapPlace(data) : null;
 }
 
+export async function generateStaticParams() {
+  const { data } = await supabase.from("events").select("id");
+  return (data ?? []).map((row) => ({ eventId: row.id }));
+}
+
 type Props = { params: Promise<{ eventId: string }> };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {

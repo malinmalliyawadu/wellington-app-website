@@ -37,6 +37,11 @@ async function getPlace(placeId: string) {
   return data ? mapPlace(data) : null;
 }
 
+export async function generateStaticParams() {
+  const { data } = await supabase.from("trails").select("id");
+  return (data ?? []).map((row) => ({ trailId: row.id }));
+}
+
 type Props = { params: Promise<{ trailId: string }> };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {

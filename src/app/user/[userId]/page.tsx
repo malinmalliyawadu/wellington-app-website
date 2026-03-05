@@ -42,6 +42,11 @@ async function getFollowerCount(userId: string) {
   return count ?? 0;
 }
 
+export async function generateStaticParams() {
+  const { data } = await supabase.from("profiles").select("id");
+  return (data ?? []).map((row) => ({ userId: row.id }));
+}
+
 type Props = { params: Promise<{ userId: string }> };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {

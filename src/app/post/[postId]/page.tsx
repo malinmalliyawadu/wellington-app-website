@@ -50,6 +50,11 @@ async function getUser(userId: string) {
   return data ? mapProfile(data) : null;
 }
 
+export async function generateStaticParams() {
+  const { data } = await supabase.from("posts").select("id");
+  return (data ?? []).map((row) => ({ postId: row.id }));
+}
+
 type Props = { params: Promise<{ postId: string }> };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
