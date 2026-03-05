@@ -16,6 +16,8 @@ import { OpenInAppButton } from "@/components/OpenInAppButton";
 import { AppStoreBanner } from "@/components/AppStoreBanner";
 
 async function getPlace(placeId: string) {
+  "use cache";
+  cacheLife("infrequent");
   const { data } = await supabase
     .from("places")
     .select("*")
@@ -25,6 +27,8 @@ async function getPlace(placeId: string) {
 }
 
 async function getPostsForPlace(placeId: string) {
+  "use cache";
+  cacheLife("infrequent");
   const { data } = await supabase
     .from("posts")
     .select("*, post_media(*)")
@@ -35,6 +39,8 @@ async function getPostsForPlace(placeId: string) {
 }
 
 async function getUsersByIds(ids: string[]) {
+  "use cache";
+  cacheLife("infrequent");
   if (ids.length === 0) return [];
   const { data } = await supabase
     .from("profiles")
@@ -92,8 +98,6 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export default async function PlacePage({ params }: Props) {
-  "use cache";
-  cacheLife("infrequent");
   const { placeId } = await params;
   const place = await getPlace(placeId);
   if (!place) notFound();

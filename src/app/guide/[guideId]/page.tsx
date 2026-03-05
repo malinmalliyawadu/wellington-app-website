@@ -17,6 +17,8 @@ import { AppStoreBanner } from "@/components/AppStoreBanner";
 import { Markdown } from "@/components/Markdown";
 
 async function getGuide(guideId: string) {
+  "use cache";
+  cacheLife("frequent");
   const { data } = await supabase
     .from("guides")
     .select("*")
@@ -26,6 +28,8 @@ async function getGuide(guideId: string) {
 }
 
 async function getGuidePlaces(guideId: string) {
+  "use cache";
+  cacheLife("frequent");
   const { data } = await supabase
     .from("guide_places")
     .select("place_id, sort_order, note, places(id, name, category, address, latitude, longitude)")
@@ -38,6 +42,8 @@ async function getGuidePlaces(guideId: string) {
 }
 
 async function getUser(userId: string) {
+  "use cache";
+  cacheLife("frequent");
   const { data } = await supabase
     .from("profiles")
     .select("*")
@@ -90,8 +96,6 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export default async function GuidePage({ params }: Props) {
-  "use cache";
-  cacheLife("frequent");
   const { guideId } = await params;
   const guide = await getGuide(guideId);
   if (!guide) notFound();

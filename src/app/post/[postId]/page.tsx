@@ -18,6 +18,8 @@ import { AppStoreBanner } from "@/components/AppStoreBanner";
 import { MediaGallery } from "./MediaGallery";
 
 async function getPost(postId: string) {
+  "use cache";
+  cacheLife("frequent");
   const { data } = await supabase
     .from("posts")
     .select("*, post_media(*)")
@@ -27,6 +29,8 @@ async function getPost(postId: string) {
 }
 
 async function getPlace(placeId: string) {
+  "use cache";
+  cacheLife("frequent");
   const { data } = await supabase
     .from("places")
     .select("*")
@@ -36,6 +40,8 @@ async function getPlace(placeId: string) {
 }
 
 async function getUser(userId: string) {
+  "use cache";
+  cacheLife("frequent");
   const { data } = await supabase
     .from("profiles")
     .select("*")
@@ -116,8 +122,6 @@ function getOgImageUrl(
 }
 
 export default async function PostPage({ params }: Props) {
-  "use cache";
-  cacheLife("frequent");
   const { postId } = await params;
   const post = await getPost(postId);
   if (!post) notFound();

@@ -10,6 +10,8 @@ import { OpenInAppButton } from "@/components/OpenInAppButton";
 import { AppStoreBanner } from "@/components/AppStoreBanner";
 
 async function getUser(userId: string) {
+  "use cache";
+  cacheLife("moderate");
   const { data } = await supabase
     .from("profiles")
     .select("*")
@@ -19,6 +21,8 @@ async function getUser(userId: string) {
 }
 
 async function getUserPosts(userId: string) {
+  "use cache";
+  cacheLife("moderate");
   const { data } = await supabase
     .from("posts")
     .select("*, post_media(*)")
@@ -29,6 +33,8 @@ async function getUserPosts(userId: string) {
 }
 
 async function getFollowerCount(userId: string) {
+  "use cache";
+  cacheLife("moderate");
   const { count } = await supabase
     .from("follows")
     .select("*", { count: "exact", head: true })
@@ -83,8 +89,6 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export default async function UserPage({ params }: Props) {
-  "use cache";
-  cacheLife("moderate");
   const { userId } = await params;
   const user = await getUser(userId);
   if (!user || user.profileVisibility === "private") notFound();

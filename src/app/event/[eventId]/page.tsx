@@ -18,6 +18,8 @@ import { AppStoreBanner } from "@/components/AppStoreBanner";
 import { Markdown } from "@/components/Markdown";
 
 async function getEvent(eventId: string) {
+  "use cache";
+  cacheLife("moderate");
   const { data } = await supabase
     .from("events")
     .select("*")
@@ -27,6 +29,8 @@ async function getEvent(eventId: string) {
 }
 
 async function getPlace(placeId: string) {
+  "use cache";
+  cacheLife("moderate");
   const { data } = await supabase
     .from("places")
     .select("*")
@@ -84,8 +88,6 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export default async function EventPage({ params }: Props) {
-  "use cache";
-  cacheLife("moderate");
   const { eventId } = await params;
   const event = await getEvent(eventId);
   if (!event) notFound();
