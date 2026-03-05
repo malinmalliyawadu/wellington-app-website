@@ -1,6 +1,7 @@
 import { ViewTransition } from "react";
 import type { Metadata } from "next";
 import Image from "next/image";
+import Link from "next/link";
 import { notFound } from "next/navigation";
 import { supabase } from "@/lib/supabase";
 import { mapEvent, mapPlace } from "@/lib/mappers";
@@ -283,7 +284,7 @@ export default async function EventPage({ params }: Props) {
 
       {/* Place card */}
       {place && (
-        <a
+        <Link
           href={`/place/${place.id}`}
           className="group mx-5 mt-4 flex items-center gap-3 rounded-2xl border border-gray-100 bg-gray-50/80 px-4 py-3 transition-all hover:border-gray-200 hover:bg-gray-100/80 dark:border-gray-800 dark:bg-gray-900/50 dark:hover:border-gray-700 dark:hover:bg-gray-800/50"
         >
@@ -327,7 +328,7 @@ export default async function EventPage({ params }: Props) {
           >
             <polyline points="9 18 15 12 9 6" />
           </svg>
-        </a>
+        </Link>
       )}
 
       {/* Description */}

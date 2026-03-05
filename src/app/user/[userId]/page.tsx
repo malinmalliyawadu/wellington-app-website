@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Image from "next/image";
+import Link from "next/link";
 import { notFound } from "next/navigation";
 import { supabase } from "@/lib/supabase";
 import { mapProfile, mapPost } from "@/lib/mappers";
@@ -134,7 +135,7 @@ export default async function UserPage({ params }: Props) {
               post.mediaUrl ??
               post.thumbnailUrl;
             return (
-              <a
+              <Link
                 key={post.id}
                 href={`/post/${post.id}`}
                 className="relative aspect-square bg-gray-100 dark:bg-gray-800"
@@ -154,7 +155,7 @@ export default async function UserPage({ params }: Props) {
                     </p>
                   </div>
                 )}
-              </a>
+              </Link>
             );
           })}
         </div>

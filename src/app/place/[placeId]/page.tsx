@@ -1,6 +1,7 @@
 import { ViewTransition } from "react";
 import type { Metadata } from "next";
 import Image from "next/image";
+import Link from "next/link";
 import { notFound } from "next/navigation";
 import { supabase } from "@/lib/supabase";
 import { mapPlace, mapPost, mapProfile } from "@/lib/mappers";
@@ -129,7 +130,7 @@ export default async function PlacePage({ params }: Props) {
               post.mediaUrl ??
               post.thumbnailUrl;
             return (
-              <a
+              <Link
                 key={post.id}
                 href={`/post/${post.id}`}
                 className="relative aspect-square bg-gray-100 dark:bg-gray-800"
@@ -149,7 +150,7 @@ export default async function PlacePage({ params }: Props) {
                     </p>
                   </div>
                 )}
-              </a>
+              </Link>
             );
           })}
         </div>
@@ -159,7 +160,7 @@ export default async function PlacePage({ params }: Props) {
       {posts.slice(0, 3).map((post) => {
         const user = userMap[post.userId];
         return (
-          <a
+          <Link
             key={post.id}
             href={`/post/${post.id}`}
             className="flex gap-3 border-b border-gray-50 px-4 py-3 transition-colors hover:bg-gray-50 dark:border-gray-800 dark:hover:bg-gray-900"
@@ -181,7 +182,7 @@ export default async function PlacePage({ params }: Props) {
                 {post.content}
               </p>
             </div>
-          </a>
+          </Link>
         );
       })}
 

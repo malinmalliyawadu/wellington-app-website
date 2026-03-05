@@ -1,6 +1,7 @@
 import { ViewTransition } from "react";
 import type { Metadata } from "next";
 import Image from "next/image";
+import Link from "next/link";
 import { notFound } from "next/navigation";
 import { supabase } from "@/lib/supabase";
 import { mapGuide, mapGuidePlace, mapProfile } from "@/lib/mappers";
@@ -162,7 +163,7 @@ export default async function GuidePage({ params }: Props) {
           <ul className="divide-y divide-gray-50 dark:divide-gray-800">
             {places.map((gp, i) => (
               <li key={gp.placeId}>
-                <a
+                <Link
                   href={`/place/${gp.placeId}`}
                   className="flex items-start gap-3 px-4 py-3 transition-colors hover:bg-gray-50 dark:hover:bg-gray-900"
                 >
@@ -185,7 +186,7 @@ export default async function GuidePage({ params }: Props) {
                       </p>
                     )}
                   </div>
-                </a>
+                </Link>
               </li>
             ))}
           </ul>

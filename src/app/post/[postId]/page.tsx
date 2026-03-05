@@ -1,6 +1,7 @@
 import { ViewTransition } from "react";
 import type { Metadata } from "next";
 import Image from "next/image";
+import Link from "next/link";
 import { notFound } from "next/navigation";
 import { supabase } from "@/lib/supabase";
 import { mapPost, mapPlace, mapProfile } from "@/lib/mappers";
@@ -197,7 +198,7 @@ export default async function PostPage({ params }: Props) {
 
         {/* Place */}
         {place && (
-          <a
+          <Link
             href={`/place/${place.id}`}
             className="flex items-center gap-3 rounded-xl bg-gray-50 px-3 py-3 transition-colors hover:bg-gray-100 dark:bg-gray-900 dark:hover:bg-gray-800"
           >
@@ -227,7 +228,7 @@ export default async function PostPage({ params }: Props) {
                 {categoryLabel} · {place.address}
               </p>
             </div>
-          </a>
+          </Link>
         )}
 
         {/* Likes & date */}
