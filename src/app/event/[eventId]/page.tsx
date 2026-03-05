@@ -88,6 +88,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export default async function EventPage({ params }: Props) {
+  "use cache";
+  cacheLife("moderate");
   const { eventId } = await params;
   const event = await getEvent(eventId);
   if (!event) notFound();

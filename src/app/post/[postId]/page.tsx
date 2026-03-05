@@ -122,6 +122,8 @@ function getOgImageUrl(
 }
 
 export default async function PostPage({ params }: Props) {
+  "use cache";
+  cacheLife("frequent");
   const { postId } = await params;
   const post = await getPost(postId);
   if (!post) notFound();

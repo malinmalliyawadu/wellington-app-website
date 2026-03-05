@@ -96,6 +96,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export default async function GuidePage({ params }: Props) {
+  "use cache";
+  cacheLife("frequent");
   const { guideId } = await params;
   const guide = await getGuide(guideId);
   if (!guide) notFound();

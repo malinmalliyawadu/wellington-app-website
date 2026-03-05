@@ -89,6 +89,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export default async function UserPage({ params }: Props) {
+  "use cache";
+  cacheLife("moderate");
   const { userId } = await params;
   const user = await getUser(userId);
   if (!user || user.profileVisibility === "private") notFound();

@@ -98,6 +98,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export default async function PlacePage({ params }: Props) {
+  "use cache";
+  cacheLife("infrequent");
   const { placeId } = await params;
   const place = await getPlace(placeId);
   if (!place) notFound();

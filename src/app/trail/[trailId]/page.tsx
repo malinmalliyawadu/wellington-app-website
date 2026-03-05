@@ -74,6 +74,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export default async function TrailPage({ params }: Props) {
+  "use cache";
+  cacheLife("moderate");
   const { trailId } = await params;
   const trail = await getTrail(trailId);
   if (!trail) notFound();
