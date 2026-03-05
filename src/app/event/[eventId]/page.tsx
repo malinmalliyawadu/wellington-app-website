@@ -1,3 +1,4 @@
+import { ViewTransition } from "react";
 import type { Metadata } from "next";
 import Image from "next/image";
 import { notFound } from "next/navigation";
@@ -110,33 +111,35 @@ export default async function EventPage({ params }: Props) {
     <div className="mx-auto flex min-h-screen max-w-lg flex-col bg-white dark:bg-gray-950">
       {/* Hero */}
       <div className="relative">
-        {event.imageUrl ? (
-          <div className="relative aspect-[4/5] w-full overflow-hidden">
-            <Image
-              src={event.imageUrl}
-              alt={event.title}
-              fill
-              className="object-cover"
-              sizes="(max-width: 512px) 100vw, 512px"
-              priority
-            />
-            {/* Gradient overlay */}
-            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
-          </div>
-        ) : (
-          <div
-            className="relative aspect-[3/2] w-full"
-            style={{
-              background: `linear-gradient(135deg, ${categoryColor}18 0%, ${categoryColor}08 50%, ${categoryColor}18 100%)`,
-            }}
-          >
-            <div className="absolute inset-0 flex items-center justify-center opacity-[0.06]">
-              <svg width="120" height="120" viewBox="0 0 24 24" fill="currentColor" className="text-gray-900 dark:text-white">
-                <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
-              </svg>
+        <ViewTransition name={`event-image-${event.id}`}>
+          {event.imageUrl ? (
+            <div className="relative aspect-video w-full overflow-hidden">
+              <Image
+                src={event.imageUrl}
+                alt={event.title}
+                fill
+                className="object-cover"
+                sizes="(max-width: 512px) 100vw, 512px"
+                priority
+              />
+              {/* Gradient overlay */}
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
             </div>
-          </div>
-        )}
+          ) : (
+            <div
+              className="relative aspect-[3/2] w-full"
+              style={{
+                background: `linear-gradient(135deg, ${categoryColor}18 0%, ${categoryColor}08 50%, ${categoryColor}18 100%)`,
+              }}
+            >
+              <div className="absolute inset-0 flex items-center justify-center opacity-[0.06]">
+                <svg width="120" height="120" viewBox="0 0 24 24" fill="currentColor" className="text-gray-900 dark:text-white">
+                  <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+                </svg>
+              </div>
+            </div>
+          )}
+        </ViewTransition>
 
         {/* Overlaid content on hero */}
         <div className="absolute inset-x-0 bottom-0 px-5 pb-5">
@@ -156,9 +159,11 @@ export default async function EventPage({ params }: Props) {
 
           {/* Title */}
           {event.imageUrl && (
-            <h1 className="text-2xl leading-tight font-extrabold tracking-tight text-white drop-shadow-lg">
-              {event.title}
-            </h1>
+            <ViewTransition name={`event-title-${event.id}`}>
+              <h1 className="text-2xl leading-tight font-extrabold tracking-tight text-white drop-shadow-lg">
+                {event.title}
+              </h1>
+            </ViewTransition>
           )}
         </div>
       </div>
@@ -166,9 +171,11 @@ export default async function EventPage({ params }: Props) {
       {/* Title (when no image) */}
       {!event.imageUrl && (
         <div className="px-5 pt-5">
-          <h1 className="text-2xl font-extrabold tracking-tight text-gray-900 dark:text-white">
-            {event.title}
-          </h1>
+          <ViewTransition name={`event-title-${event.id}`}>
+            <h1 className="text-2xl font-extrabold tracking-tight text-gray-900 dark:text-white">
+              {event.title}
+            </h1>
+          </ViewTransition>
         </div>
       )}
 

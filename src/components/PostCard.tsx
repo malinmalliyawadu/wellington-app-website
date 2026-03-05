@@ -1,3 +1,4 @@
+import { ViewTransition } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import type { Post, User, Place } from "@/lib/types";
@@ -41,15 +42,17 @@ export function PostCard({ post, author, place }: PostCardProps) {
     >
       {/* Image or text placeholder */}
       {image ? (
-        <div className="relative aspect-square bg-gray-100 dark:bg-gray-800">
-          <Image
-            src={image}
-            alt={post.content}
-            fill
-            className="object-cover transition-transform group-hover:scale-[1.02]"
-            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-          />
-        </div>
+        <ViewTransition name={`post-image-${post.id}`}>
+          <div className="relative aspect-square bg-gray-100 dark:bg-gray-800">
+            <Image
+              src={image}
+              alt={post.content}
+              fill
+              className="object-cover transition-transform group-hover:scale-[1.02]"
+              sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+            />
+          </div>
+        </ViewTransition>
       ) : (
         <div className="flex aspect-square items-center justify-center bg-gradient-to-br from-gray-100 to-gray-50 p-4 dark:from-gray-800 dark:to-gray-900">
           <p className="line-clamp-6 text-center text-sm leading-relaxed text-gray-600 dark:text-gray-300">

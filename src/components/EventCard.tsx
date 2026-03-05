@@ -1,3 +1,4 @@
+import { ViewTransition } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import type { Event } from "@/lib/types";
@@ -31,36 +32,40 @@ export function EventCard({ event, venueName }: EventCardProps) {
       href={`/event/${event.id}`}
       className="group flex flex-col overflow-hidden rounded-xl border border-gray-100 bg-white transition-shadow hover:shadow-md dark:border-gray-800 dark:bg-gray-900"
     >
-      <div className="relative aspect-video bg-gray-100 dark:bg-gray-800">
-        {event.imageUrl ? (
-          <Image
-            src={event.imageUrl}
-            alt={event.title}
-            fill
-            className="object-cover transition-transform group-hover:scale-[1.02]"
-            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-          />
-        ) : (
-          <div
-            className="flex h-full items-center justify-center"
-            style={{ backgroundColor: `${categoryColor}15` }}
+      <ViewTransition name={`event-image-${event.id}`}>
+        <div className="relative aspect-video bg-gray-100 dark:bg-gray-800">
+          {event.imageUrl ? (
+            <Image
+              src={event.imageUrl}
+              alt={event.title}
+              fill
+              className="object-cover transition-transform group-hover:scale-[1.02]"
+              sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+            />
+          ) : (
+            <div
+              className="flex h-full items-center justify-center"
+              style={{ backgroundColor: `${categoryColor}15` }}
+            >
+              <span className="text-3xl font-bold" style={{ color: categoryColor }}>
+                {categoryLabel}
+              </span>
+            </div>
+          )}
+          <span
+            className="absolute top-2 left-2 rounded-full px-2.5 py-0.5 text-xs font-semibold text-white"
+            style={{ backgroundColor: categoryColor }}
           >
-            <span className="text-3xl font-bold" style={{ color: categoryColor }}>
-              {categoryLabel}
-            </span>
-          </div>
-        )}
-        <span
-          className="absolute top-2 left-2 rounded-full px-2.5 py-0.5 text-xs font-semibold text-white"
-          style={{ backgroundColor: categoryColor }}
-        >
-          {categoryLabel}
-        </span>
-      </div>
+            {categoryLabel}
+          </span>
+        </div>
+      </ViewTransition>
       <div className="flex flex-1 flex-col gap-1 p-3">
-        <h3 className="line-clamp-2 text-sm font-semibold text-gray-900 dark:text-white">
-          {event.title}
-        </h3>
+        <ViewTransition name={`event-title-${event.id}`}>
+          <h3 className="line-clamp-2 text-sm font-semibold text-gray-900 dark:text-white">
+            {event.title}
+          </h3>
+        </ViewTransition>
         <p className="text-xs text-gray-500 dark:text-gray-400">
           {formattedDate} · {formatTime(event.startTime)}
         </p>

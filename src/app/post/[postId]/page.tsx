@@ -1,3 +1,4 @@
+import { ViewTransition } from "react";
 import type { Metadata } from "next";
 import Image from "next/image";
 import { notFound } from "next/navigation";
@@ -179,7 +180,11 @@ export default async function PostPage({ params }: Props) {
       </header>
 
       {/* Media */}
-      {hasMedia && <MediaGallery items={mediaItems} />}
+      {hasMedia && (
+        <ViewTransition name={`post-image-${post.id}`}>
+          <MediaGallery items={mediaItems} />
+        </ViewTransition>
+      )}
 
       {/* Content */}
       <div className="flex flex-col gap-4 px-4 py-5">

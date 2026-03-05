@@ -1,3 +1,4 @@
+import { ViewTransition } from "react";
 import type { Metadata } from "next";
 import Image from "next/image";
 import { notFound } from "next/navigation";
@@ -109,7 +110,9 @@ export default async function PlacePage({ params }: Props) {
         <span className="mb-2 inline-block rounded-full bg-[#00A5E0]/10 px-3 py-1 text-xs font-semibold text-[#00A5E0] capitalize dark:bg-[#00A5E0]/20">
           {CATEGORY_LABELS[place.category] ?? place.category}
         </span>
-        <h1 className="text-xl font-bold text-gray-900 dark:text-white">{place.name}</h1>
+        <ViewTransition name={`place-name-${place.id}`}>
+          <h1 className="text-xl font-bold text-gray-900 dark:text-white">{place.name}</h1>
+        </ViewTransition>
         <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">{place.address}</p>
         <p className="mt-2 text-sm text-gray-400 dark:text-gray-500">
           {posts.length} recommendation{posts.length !== 1 ? "s" : ""}

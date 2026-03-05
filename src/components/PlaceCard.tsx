@@ -1,3 +1,4 @@
+import { ViewTransition } from "react";
 import Link from "next/link";
 import type { Place } from "@/lib/types";
 import { CATEGORY_LABELS, PLACE_CATEGORY_COLORS } from "@/lib/constants";
@@ -21,9 +22,11 @@ export function PlaceCard({ place, postCount }: PlaceCardProps) {
         style={{ backgroundColor: categoryColor }}
       />
       <div className="min-w-0 flex-1">
-        <h3 className="line-clamp-1 text-sm font-semibold text-gray-900 dark:text-white">
-          {place.name}
-        </h3>
+        <ViewTransition name={`place-name-${place.id}`}>
+          <h3 className="line-clamp-1 text-sm font-semibold text-gray-900 dark:text-white">
+            {place.name}
+          </h3>
+        </ViewTransition>
         <div className="mt-0.5 flex items-center gap-2 text-xs text-gray-400 dark:text-gray-500">
           <span
             className="rounded-full px-2 py-0.5 text-[11px] font-medium"

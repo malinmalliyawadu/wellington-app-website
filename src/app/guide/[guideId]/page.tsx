@@ -1,3 +1,4 @@
+import { ViewTransition } from "react";
 import type { Metadata } from "next";
 import Image from "next/image";
 import { notFound } from "next/navigation";
@@ -102,21 +103,25 @@ export default async function GuidePage({ params }: Props) {
     <div className="mx-auto flex min-h-screen max-w-lg flex-col bg-white dark:bg-gray-950">
       {/* Cover Image */}
       {guide.coverImageUrl && (
-        <div className="relative aspect-video w-full bg-gray-100 dark:bg-gray-800">
-          <Image
-            src={guide.coverImageUrl}
-            alt={guide.title}
-            fill
-            className="object-cover"
-            sizes="(max-width: 512px) 100vw, 512px"
-            priority
-          />
-        </div>
+        <ViewTransition name={`guide-image-${guide.id}`}>
+          <div className="relative aspect-video w-full bg-gray-100 dark:bg-gray-800">
+            <Image
+              src={guide.coverImageUrl}
+              alt={guide.title}
+              fill
+              className="object-cover"
+              sizes="(max-width: 512px) 100vw, 512px"
+              priority
+            />
+          </div>
+        </ViewTransition>
       )}
 
       {/* Header */}
       <div className="flex flex-col gap-3 px-4 py-5">
-        <h1 className="text-xl font-bold text-gray-900 dark:text-white">{guide.title}</h1>
+        <ViewTransition name={`guide-title-${guide.id}`}>
+          <h1 className="text-xl font-bold text-gray-900 dark:text-white">{guide.title}</h1>
+        </ViewTransition>
 
         {/* Author */}
         {user && (
