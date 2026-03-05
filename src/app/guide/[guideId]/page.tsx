@@ -11,6 +11,7 @@ import {
 } from "@/lib/constants";
 import { OpenInAppButton } from "@/components/OpenInAppButton";
 import { AppStoreBanner } from "@/components/AppStoreBanner";
+import { Markdown } from "@/components/Markdown";
 
 
 export const revalidate = 60;
@@ -136,9 +137,9 @@ export default async function GuidePage({ params }: Props) {
         )}
 
         {guide.description && (
-          <p className="text-sm leading-relaxed text-gray-600 dark:text-gray-300">
-            {guide.description}
-          </p>
+          <div className="text-sm leading-relaxed text-gray-600 dark:text-gray-300">
+            <Markdown>{guide.description}</Markdown>
+          </div>
         )}
 
         <div className="flex items-center gap-4 text-xs text-gray-400 dark:text-gray-500">

@@ -6,6 +6,7 @@ import { mapEvent, mapPlace } from "@/lib/mappers";
 import { SITE_URL, APP_STORE_ID, getEventDeepLink, CATEGORY_LABELS } from "@/lib/constants";
 import { OpenInAppButton } from "@/components/OpenInAppButton";
 import { AppStoreBanner } from "@/components/AppStoreBanner";
+import { Markdown } from "@/components/Markdown";
 
 
 export const revalidate = 300;
@@ -164,9 +165,9 @@ export default async function EventPage({ params }: Props) {
         )}
 
         {/* Description */}
-        <p className="text-sm leading-relaxed text-gray-600 whitespace-pre-line dark:text-gray-300">
-          {event.aiDescription ?? event.description}
-        </p>
+        <div className="text-sm leading-relaxed text-gray-600 dark:text-gray-300">
+          <Markdown>{event.aiDescription ?? event.description}</Markdown>
+        </div>
 
         {/* Ticket link */}
         {event.ticketUrl && (
