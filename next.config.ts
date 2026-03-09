@@ -37,6 +37,10 @@ const nextConfig: NextConfig = {
         protocol: "https",
         hostname: "cdn.filestackcontent.com",
       },
+      {
+        protocol: "https",
+        hostname: "volunteers.everybodyeats.nz",
+      },
     ],
   },
   headers: async () => [
