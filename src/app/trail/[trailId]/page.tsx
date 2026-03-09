@@ -39,7 +39,8 @@ async function getPlace(placeId: string) {
 
 export async function generateStaticParams() {
   const { data } = await supabase.from("trails").select("id");
-  return (data ?? []).map((row) => ({ trailId: row.id }));
+  const params = (data ?? []).map((row) => ({ trailId: row.id }));
+  return params.length > 0 ? params : [{ trailId: "__placeholder__" }];
 }
 
 type Props = { params: Promise<{ trailId: string }> };

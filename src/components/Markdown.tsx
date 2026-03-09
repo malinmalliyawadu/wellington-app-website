@@ -7,7 +7,6 @@ interface MarkdownProps {
 export function Markdown({ children }: MarkdownProps) {
   return (
     <ReactMarkdown
-      children={children}
       components={{
         a: ({ href, children }) => (
           <a
@@ -40,6 +39,8 @@ export function Markdown({ children }: MarkdownProps) {
           <h3 className="mb-1 text-sm font-bold">{children}</h3>
         ),
       }}
-    />
+    >
+      {children}
+    </ReactMarkdown>
   );
 }

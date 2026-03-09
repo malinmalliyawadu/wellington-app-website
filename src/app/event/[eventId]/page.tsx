@@ -41,7 +41,8 @@ async function getPlace(placeId: string) {
 
 export async function generateStaticParams() {
   const { data } = await supabase.from("events").select("id");
-  return (data ?? []).map((row) => ({ eventId: row.id }));
+  const params = (data ?? []).map((row) => ({ eventId: row.id }));
+  return params.length > 0 ? params : [{ eventId: "__placeholder__" }];
 }
 
 type Props = { params: Promise<{ eventId: string }> };
