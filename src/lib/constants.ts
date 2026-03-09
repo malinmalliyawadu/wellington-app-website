@@ -63,6 +63,7 @@ export const EVENT_CATEGORY_LABELS: Record<string, string> = {
   craft: "Craft",
   kids: "Kids",
   cultural: "Cultural",
+  volunteering: "Volunteering",
 };
 
 export const EVENT_CATEGORY_COLORS: Record<string, string> = {
@@ -76,6 +77,7 @@ export const EVENT_CATEGORY_COLORS: Record<string, string> = {
   craft: "#F97316",
   kids: "#14B8A6",
   cultural: "#A855F7",
+  volunteering: "#16A34A",
 };
 
 export const PLACE_CATEGORY_COLORS: Record<string, string> = {

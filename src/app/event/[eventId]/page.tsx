@@ -380,6 +380,33 @@ export default async function EventPage({ params }: Props) {
         </div>
       )}
 
+      {/* Volunteer CTA */}
+      {event.everybodyEatsUrl && (
+        <div className="px-5 pt-5">
+          <a
+            href={event.everybodyEatsUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center justify-center gap-2 rounded-2xl px-5 py-3.5 text-sm font-bold text-white transition-opacity hover:opacity-90"
+            style={{ backgroundColor: "#16A34A" }}
+          >
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
+            </svg>
+            Sign Up to Volunteer
+          </a>
+        </div>
+      )}
+
       {/* CTA */}
       <div className="mt-auto flex flex-col gap-4 px-5 pt-8 pb-6">
         <div
