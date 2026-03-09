@@ -55,7 +55,8 @@ export type EventCategory =
   | "quiz"
   | "craft"
   | "kids"
-  | "cultural";
+  | "cultural"
+  | "volunteering";
 
 export interface Event {
   id: string;
@@ -69,6 +70,7 @@ export interface Event {
   category: EventCategory;
   attendeeIds?: string[];
   ticketUrl?: string;
+  everybodyEatsUrl?: string;
   price?: number | null;
   aiScore?: number | null;
   aiDescription?: string;

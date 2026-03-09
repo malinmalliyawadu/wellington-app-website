@@ -74,6 +74,7 @@ export function mapEvent(row: {
   image_url: string | null;
   category: string;
   ticket_url: string | null;
+  everybody_eats_url: string | null;
   price: number | null;
   ai_score?: number | null;
   ai_description?: string | null;
@@ -89,6 +90,7 @@ export function mapEvent(row: {
     imageUrl: row.image_url ?? undefined,
     category: row.category as Event["category"],
     ticketUrl: row.ticket_url ?? undefined,
+    everybodyEatsUrl: row.everybody_eats_url ?? undefined,
     price: row.price,
     aiScore: row.ai_score ?? undefined,
     aiDescription: row.ai_description ?? undefined,

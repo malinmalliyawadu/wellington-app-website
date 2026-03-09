@@ -54,7 +54,8 @@ async function getUser(userId: string) {
 
 export async function generateStaticParams() {
   const { data } = await supabase.from("guides").select("id");
-  return (data ?? []).map((row) => ({ guideId: row.id }));
+  const params = (data ?? []).map((row) => ({ guideId: row.id }));
+  return params.length > 0 ? params : [{ guideId: "__placeholder__" }];
 }
 
 type Props = { params: Promise<{ guideId: string }> };

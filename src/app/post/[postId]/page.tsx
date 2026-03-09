@@ -52,7 +52,8 @@ async function getUser(userId: string) {
 
 export async function generateStaticParams() {
   const { data } = await supabase.from("posts").select("id");
-  return (data ?? []).map((row) => ({ postId: row.id }));
+  const params = (data ?? []).map((row) => ({ postId: row.id }));
+  return params.length > 0 ? params : [{ postId: "__placeholder__" }];
 }
 
 type Props = { params: Promise<{ postId: string }> };

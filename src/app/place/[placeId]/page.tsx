@@ -51,7 +51,8 @@ async function getUsersByIds(ids: string[]) {
 
 export async function generateStaticParams() {
   const { data } = await supabase.from("places").select("id");
-  return (data ?? []).map((row) => ({ placeId: row.id }));
+  const params = (data ?? []).map((row) => ({ placeId: row.id }));
+  return params.length > 0 ? params : [{ placeId: "__placeholder__" }];
 }
 
 type Props = { params: Promise<{ placeId: string }> };
