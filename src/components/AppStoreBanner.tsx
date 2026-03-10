@@ -1,3 +1,6 @@
+"use client";
+
+import posthog from "posthog-js";
 import { APP_STORE_URL } from "@/lib/constants";
 
 export function AppStoreBanner() {
@@ -12,6 +15,7 @@ export function AppStoreBanner() {
       </p>
       <a
         href={APP_STORE_URL}
+        onClick={() => posthog.capture("app_store_download_clicked", { source: "banner" })}
         className="inline-flex items-center justify-center rounded-full bg-gray-900 px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-gray-700 dark:bg-white dark:text-gray-900 dark:hover:bg-gray-200"
       >
         Download the App

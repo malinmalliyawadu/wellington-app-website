@@ -8,12 +8,12 @@ import {
   mapGuide,
   mapProfile,
 } from "@/lib/mappers";
-import { APP_STORE_URL } from "@/lib/constants";
 import { EventCard } from "@/components/EventCard";
 import { PostCard } from "@/components/PostCard";
 import { PlaceCard } from "@/components/PlaceCard";
 import { GuideCard } from "@/components/GuideCard";
 import { Footer } from "@/components/Footer";
+import { AppStoreLink } from "@/components/AppStoreLink";
 import { cacheLife } from "next/cache";
 import type { User, Place } from "@/lib/types";
 
@@ -184,12 +184,9 @@ export default async function HomePage() {
           what&apos;s happening around town.
         </p>
         <div className="mt-8">
-          <a
-            href={APP_STORE_URL}
-            className="inline-flex items-center justify-center rounded-full bg-gray-900 px-6 py-3 text-base font-semibold text-white transition-colors hover:bg-gray-700 dark:bg-white dark:text-gray-900 dark:hover:bg-gray-200"
-          >
+          <AppStoreLink className="inline-flex items-center justify-center rounded-full bg-gray-900 px-6 py-3 text-base font-semibold text-white transition-colors hover:bg-gray-700 dark:bg-white dark:text-gray-900 dark:hover:bg-gray-200">
             Download for iOS
-          </a>
+          </AppStoreLink>
         </div>
       </section>
 
@@ -379,12 +376,9 @@ export default async function HomePage() {
             Download Welly to follow locals, discover hidden spots, and stay in
             the loop on what&apos;s happening.
           </p>
-          <a
-            href={APP_STORE_URL}
-            className="mt-6 inline-flex items-center justify-center rounded-full bg-white px-6 py-3 text-base font-semibold text-[#00A5E0] transition-colors hover:bg-gray-100"
-          >
+          <AppStoreLink className="mt-6 inline-flex items-center justify-center rounded-full bg-white px-6 py-3 text-base font-semibold text-[#00A5E0] transition-colors hover:bg-gray-100">
             Download for iOS
-          </a>
+          </AppStoreLink>
         </div>
       </section>
 

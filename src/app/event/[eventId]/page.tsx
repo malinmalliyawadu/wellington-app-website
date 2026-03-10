@@ -16,6 +16,7 @@ import { cacheLife } from "next/cache";
 import { OpenInAppButton } from "@/components/OpenInAppButton";
 import { AppStoreBanner } from "@/components/AppStoreBanner";
 import { Markdown } from "@/components/Markdown";
+import { TicketLink, VolunteerLink } from "./EventCTALinks";
 
 async function getEvent(eventId: string) {
   "use cache";
@@ -354,13 +355,7 @@ export default async function EventPage({ params }: Props) {
       {/* Ticket CTA */}
       {event.ticketUrl && (
         <div className="px-5 pt-5">
-          <a
-            href={event.ticketUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center justify-center gap-2 rounded-2xl px-5 py-3.5 text-sm font-bold text-white transition-opacity hover:opacity-90"
-            style={{ backgroundColor: categoryColor }}
-          >
+          <TicketLink href={event.ticketUrl} style={{ backgroundColor: categoryColor }}>
             <svg
               width="16"
               height="16"
@@ -377,20 +372,14 @@ export default async function EventPage({ params }: Props) {
               <path d="M13 11v2" />
             </svg>
             Get Tickets
-          </a>
+          </TicketLink>
         </div>
       )}
 
       {/* Volunteer CTA */}
       {event.everybodyEatsUrl && (
         <div className="px-5 pt-5">
-          <a
-            href={event.everybodyEatsUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center justify-center gap-2 rounded-2xl px-5 py-3.5 text-sm font-bold text-white transition-opacity hover:opacity-90"
-            style={{ backgroundColor: "#16A34A" }}
-          >
+          <VolunteerLink href={event.everybodyEatsUrl}>
             <svg
               width="16"
               height="16"
@@ -404,7 +393,7 @@ export default async function EventPage({ params }: Props) {
               <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
             </svg>
             Sign Up to Volunteer
-          </a>
+          </VolunteerLink>
         </div>
       )}
 

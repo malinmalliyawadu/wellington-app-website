@@ -1,9 +1,11 @@
 "use client";
 
+import posthog from "posthog-js";
 import { APP_STORE_URL } from "@/lib/constants";
 
 export function OpenInAppButton({ deepLink }: { deepLink: string }) {
   function handleClick() {
+    posthog.capture("open_in_app_clicked", { deep_link: deepLink });
     // Try deep link first, fall back to App Store after timeout
     window.location.href = deepLink;
     setTimeout(() => {

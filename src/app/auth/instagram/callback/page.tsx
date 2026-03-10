@@ -1,5 +1,6 @@
 "use client";
 
+import posthog from "posthog-js";
 import { useSearchParams } from "next/navigation";
 import { Suspense, useEffect } from "react";
 
@@ -9,6 +10,7 @@ function CallbackRedirect() {
   useEffect(() => {
     const code = searchParams.get("code");
     if (code) {
+      posthog.capture("instagram_auth_redirected");
       window.location.href = `wellington://instagram-callback?code=${encodeURIComponent(code)}`;
     }
   }, [searchParams]);
